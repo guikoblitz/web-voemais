@@ -1,7 +1,7 @@
 <template>
   <q-page class="row items-center justify-evenly" color="warning">
     
-      <q-input outlined color="secondary"/>
+    <q-input outlined color="secondary"/>
     
     <example-component
       title="Example component"

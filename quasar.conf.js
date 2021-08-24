@@ -128,8 +128,8 @@ module.exports = configure(function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Quasar App',
-        short_name: 'Quasar App',
+        name: 'Voe+',
+        short_name: 'Voe+',
         description: 'Voe+',
         display: 'standalone',
         orientation: 'portrait',
