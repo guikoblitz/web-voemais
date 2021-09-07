@@ -135,6 +135,7 @@
 </template>
 
 <script lang="ts">
+import { Loading } from 'quasar';
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component({})
@@ -144,7 +145,11 @@ export default class MainLayout extends Vue {
   title = 'Início';
 
   teste(tab: string): void {
-    this.title = tab;
+    Loading.show({ message: `Carregando ${tab}...` });
+    setTimeout(() => {
+      this.title = tab;
+      Loading.hide();
+    }, 1000);
   }
 }
 </script>
