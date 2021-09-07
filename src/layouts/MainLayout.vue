@@ -3,7 +3,7 @@
   <q-layout view="hHh LpR lfr">
     <q-header elevated>
       <q-toolbar>
-        <div class="q-pa-none q-ma-none" v-if="!mini" style="width: 200px">
+        <!-- <div class="q-pa-none q-ma-none" v-if="!mini" style="width: 200px">
           <q-item
             class="text-white"
             style="justify-content: center"
@@ -14,8 +14,8 @@
               <q-img src="logo_raw.png" />
             </q-item-section>
           </q-item>
-        </div>
-        <q-separator v-if="!mini" vertical inset class="separador" />
+        </div> -->
+        <!-- <q-separator v-if="!mini" vertical inset class="separador" /> -->
         <q-btn
           flat
           dense
@@ -27,7 +27,19 @@
 
         <q-toolbar-title> {{ title }} </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div class="q-pa-none q-ma-none">
+          <q-item
+            class="text-white"
+            style="justify-content: center"
+            dense
+            clickable
+            @click="setRouter('/', 'Inicio')"
+          >
+            <q-item-section avatar class="q-pa-none">
+              <q-img src="logo_raw.png" />
+            </q-item-section>
+          </q-item>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -49,7 +61,7 @@
             hide-dropdown-icon
             label="Início"
             icon="home"
-            @click="teste('Inicio')"
+            @click="setRouter('/', 'Inicio')"
           >
           </q-expansion-item>
           <q-tooltip
@@ -71,13 +83,13 @@
         />
         <div>
           <q-expansion-item
-            ref="menuConfiguracoes"
+            ref="menuCadastro"
             group="menuLateral"
             class="esconder-seta-expansion-item"
             hide-dropdown-icon
             label="Cadastro"
             icon="settings"
-            @click="teste('Cadastro')"
+            @click="setRouter('/cadastroPage', 'Cadastro')"
           >
           </q-expansion-item>
           <q-tooltip
@@ -99,13 +111,13 @@
         />
         <div>
           <q-expansion-item
-            ref="menuConfiguracoes"
+            ref="menupacotes"
             group="menuLateral"
             class="esconder-seta-expansion-item"
             hide-dropdown-icon
             label="Pacotes"
             icon="flight_takeoff"
-            @click="teste('Pacotes')"
+            @click="setRouter('/pacotesPage', 'Pacotes')"
           >
           </q-expansion-item>
           <q-tooltip
@@ -144,12 +156,18 @@ export default class MainLayout extends Vue {
   mini = true;
   title = 'Início';
 
-  teste(tab: string): void {
-    Loading.show({ message: `Carregando ${tab}...` });
-    setTimeout(() => {
-      this.title = tab;
-      Loading.hide();
-    }, 1000);
+  setRouter(path: string, tab: string): void {
+    if (this.title !== tab) {
+      Loading.show({ message: `Carregando ${tab}...` });
+      setTimeout(() => {
+        this.title = tab;
+        this.mini = true;
+        this.$router.push(path).catch(() => {});
+        Loading.hide();
+      }, 1000);
+    } else {
+      this.mini = false;
+    }
   }
 }
 </script>
