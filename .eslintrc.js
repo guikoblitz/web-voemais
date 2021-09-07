@@ -73,10 +73,13 @@ module.exports = {
   rules: {
     'prefer-promise-reject-errors': 'off',
 
+    'no-empty': 'off',
+
     // TypeScript
     quotes: ['warn', 'single', { avoidEscape: true }],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
 
     // allow debugger during development only
     allow: ['arrowFunctions'],
