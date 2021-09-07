@@ -48,6 +48,7 @@
       show-if-above
       bordered
       :mini="mini"
+      elevated
       content-class="background-color-drawer"
       class="text-white"
       :width="215"
