@@ -25,7 +25,7 @@
           @click="mini = !mini"
         />
 
-        <q-toolbar-title> Voe+ </q-toolbar-title>
+        <q-toolbar-title> {{ title }} </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
@@ -141,9 +141,10 @@ import { Vue, Component } from 'vue-property-decorator';
 export default class MainLayout extends Vue {
   leftDrawer = true;
   mini = true;
+  title = 'Início';
 
   teste(tab: string): void {
-    console.log(tab);
+    this.title = tab;
   }
 }
 </script>
