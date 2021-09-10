@@ -5,7 +5,7 @@ export class Pessoa {
 
   cpf: string;
 
-  dataNascimento: Date;
+  dataNascimento: Date | string;
 
   email: string;
 
