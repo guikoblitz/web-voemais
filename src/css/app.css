@@ -6,3 +6,7 @@
 .q-drawer--left.q-drawer--bordered {
     border-right: none;
 }
+
+.body--light .q-field--outlined.q-field--readonly .q-field__control:before {
+    border-style: solid;
+}

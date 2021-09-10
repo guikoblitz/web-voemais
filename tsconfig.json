@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "experimentalDecorators": true,
     "target": "es5",
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "noImplicitAny": false,
   },
 }
