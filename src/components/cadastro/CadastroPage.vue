@@ -32,6 +32,8 @@
               outlined
               hide-bottom-space
               label="CPF"
+              mask="###.###.###-##"
+              maxlength="14"
               v-model="pessoa.cpf"
               ref="cadastroCPF"
             >
@@ -43,9 +45,29 @@
               outlined
               hide-bottom-space
               label="Data de Nascimento"
-              v-model="pessoa.dataNascimento"
+              readonly
+              :value="getDataFormatada(pessoa.dataNascimento)"
               ref="cadastroDataNascimento"
-            />
+            >
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    transition-show="scale"
+                    transition-hide="scale"
+                    ref="qDateDataNascimento"
+                  >
+                    <q-date
+                      minimal
+                      v-model="pessoa.dataNascimento"
+                      @input="
+                        hide('qDateDataNascimento');
+                        atribuirData(pessoa.dataNascimento);
+                      "
+                    />
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
           </div>
           <div class="col-6 col-md-6">
             <q-input
@@ -68,33 +90,18 @@
             />
           </div>
           <div class="col-6 col-md-6">
-            <q-input
-              dense
-              outlined
-              hide-bottom-space
-              label="Tipo de Telefone"
-              v-model="pessoa.tipoTelefone"
-              ref="cadastroTipoTelefone"
-            />
-          </div>
-          <div class="col-6 col-md-6">
-            <q-input
-              dense
-              outlined
-              hide-bottom-space
-              label="Telefone"
-              v-model="pessoa.telefone"
-              ref="cadastroTelefone"
-            />
-          </div>
-          <div class="col-6 col-md-6">
-            <q-input
-              dense
-              outlined
-              hide-bottom-space
-              label="Estado"
-              v-model="pessoa.estado"
+            <q-select
               ref="cadastroEstado"
+              dense
+              outlined
+              label="Estado"
+              :options="listaEstados"
+              transition-show="flip-up"
+              transition-hide="flip-down"
+              hide-bottom-space
+              v-model="pessoa.estado"
+              map-options
+              emit-value
             />
           </div>
           <div class="col-6 col-md-6">
@@ -102,19 +109,22 @@
               dense
               outlined
               hide-bottom-space
-              label="Tipo de Telefone"
+              label="Cidade"
               v-model="pessoa.cidade"
               ref="cadastroCidade"
             />
           </div>
           <div class="col-6 col-md-6">
-            <q-input
+            <q-select
+              ref="cadastroTipoLogradouro"
               dense
               outlined
-              hide-bottom-space
               label="Tipo Logradouro"
+              :options="listaTipoLogradouros"
+              transition-show="flip-up"
+              transition-hide="flip-down"
+              hide-bottom-space
               v-model="pessoa.tipoLogradouro"
-              ref="cadastroTipoLogradouro"
             />
           </div>
           <div class="col-6 col-md-6">
@@ -148,6 +158,30 @@
             />
           </div>
           <div class="col-6 col-md-6">
+            <q-select
+              ref="cadastroTipoTelefone"
+              dense
+              outlined
+              label="Tipo Telefone"
+              :options="listaTipoTelefones"
+              transition-show="flip-up"
+              transition-hide="flip-down"
+              hide-bottom-space
+              v-model="pessoa.tipoTelefone"
+            >
+            </q-select>
+          </div>
+          <div class="col-6 col-md-6">
+            <q-input
+              dense
+              outlined
+              hide-bottom-space
+              label="Telefone"
+              v-model="pessoa.telefone"
+              ref="cadastroTelefone"
+            />
+          </div>
+          <div class="col-6 col-md-6">
             <q-input
               dense
               outlined
@@ -169,25 +203,6 @@
           </div>
         </div>
         <div class="row justify-end q-pt-sm">
-          <!-- <div class="q-pr-sm">
-            <q-btn
-              icon="close"
-              outline
-              class="q-px-xs"
-              text-color="red"
-              label="Cancelar"
-            />
-          </div>
-          <div>
-            <q-btn
-              icon="done"
-              outline
-              class="q-px-xs"
-              text-color="green"
-              label="Confirmar"
-              @click="confirmar()"
-            />
-          </div> -->
           <div class="q-pr-sm">
             <q-btn
               icon="close"
@@ -215,16 +230,56 @@
 </template>
 
 <script lang="ts">
+import { QDate } from 'quasar';
 import { Pessoa } from 'src/entities/Pessoa';
+import {
+  formatarDataQDate,
+  getDataBD,
+  getDataFormatada
+} from 'src/util/DataUtil';
+import { mascaraCpfCnpj } from 'src/util/MaskUtil';
 import { Vue, Component } from 'vue-property-decorator';
+import { Estado, listaEstados } from 'src/util/Constantes';
 
 @Component
 export default class CadastroPage extends Vue {
   pessoa = new Pessoa();
-  teste = 'Testando 12345...';
+  listaTipoTelefones: string[] = ['Celular', 'Residencial', 'Comercial', 'Fax'];
+  listaTipoLogradouros: string[] = [
+    'Rua',
+    'Avenida',
+    'Alameda',
+    'Travessa',
+    'Rodovia'
+  ];
+  listaEstados: Estado[] = [];
+
+  constructor() {
+    super();
+
+    this['getDataFormatada'] = getDataFormatada;
+    this['formatarData'] = formatarDataQDate;
+    this['getDataBD'] = getDataBD;
+    this['mascaraCpfCnpj'] = mascaraCpfCnpj;
+
+    this.listaEstados = [...listaEstados];
+  }
+
+  $refs!: {
+    qDateDataNascimento: QDate;
+  };
 
   confirmar(): void {
     console.log(this.pessoa);
+  }
+
+  hide(qDateRef: string): void {
+    this.$refs[qDateRef].hide();
+  }
+
+  atribuirData(data: string): void {
+    const formatoData = new Date(data);
+    this.pessoa.dataNascimento = getDataBD(formatoData);
   }
 }
 </script>
