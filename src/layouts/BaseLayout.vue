@@ -202,7 +202,7 @@ export default class BaseLayout extends Vue {
 
   confirmarLogin(retorno: boolean): void {
     if (retorno) {
-      Loading.show({ message: `Carregando Início...` });
+      Loading.show({ message: 'Carregando Início...' });
       setTimeout(() => {
         this.title = 'Início';
         this.mini = true;
