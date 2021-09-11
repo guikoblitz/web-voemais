@@ -92,12 +92,9 @@
 </template>
 
 <script lang="ts">
-import ExampleComponent from 'components/ClassComponent.vue';
 import { Vue, Component } from 'vue-property-decorator';
 
-@Component({
-  components: { ExampleComponent }
-})
+@Component({})
 export default class MainPage extends Vue {}
 </script>
 

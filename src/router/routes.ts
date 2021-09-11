@@ -3,11 +3,17 @@ import { RouteConfig } from 'vue-router';
 const routes: RouteConfig[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('src/layouts/BaseLayout.vue'),
     children: [
       { path: '', component: () => import('pages/MainPage.vue') },
-      { path: 'cadastroPage', component: () => import('src/components/cadastro/CadastroPage.vue') },
-      { path: 'pacotesPage', component: () => import('src/components/pacotes/PacotesPage.vue') },
+      {
+        path: 'cadastroPage',
+        component: () => import('src/components/cadastro/CadastroPage.vue')
+      },
+      {
+        path: 'pacotesPage',
+        component: () => import('src/components/pacotes/PacotesPage.vue')
+      }
     ]
   },
 

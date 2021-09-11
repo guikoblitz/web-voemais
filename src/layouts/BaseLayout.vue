@@ -44,6 +44,7 @@
             label="Login"
             size="13px"
             color="light-blue-3"
+            @click="abrirLogin = true"
           />
         </div>
         <div class="q-pa-none q-ma-none">
@@ -163,18 +164,25 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <Login
+      v-if="abrirLogin"
+      :abrirLogin="abrirLogin"
+      @fecharModal="abrirLogin = $event"
+    />
   </q-layout>
 </template>
 
 <script lang="ts">
 import { Loading } from 'quasar';
 import { Vue, Component } from 'vue-property-decorator';
+import Login from 'src/modals/Login.vue';
 
-@Component({})
-export default class MainLayout extends Vue {
+@Component({ components: { Login } })
+export default class BaseLayout extends Vue {
   leftDrawer = true;
   mini = true;
   title = 'Início';
+  abrirLogin = false;
 
   setRouter(path: string, tab: string): void {
     if (this.title !== tab) {
@@ -186,7 +194,7 @@ export default class MainLayout extends Vue {
         Loading.hide();
       }, 1000);
     } else {
-      this.mini = false;
+      this.mini = !this.mini;
     }
   }
 }
