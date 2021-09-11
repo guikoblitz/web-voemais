@@ -27,6 +27,25 @@
 
         <q-toolbar-title> {{ title }} </q-toolbar-title>
 
+        <div class="q-pr-sm q-ma-none">
+          <q-btn
+            rounded
+            outline
+            label="Cadastro"
+            size="13px"
+            color="light-blue-3"
+            @click="setRouter('/cadastroPage', 'Cadastro')"
+          />
+        </div>
+        <div class="q-pr-sm q-ma-none">
+          <q-btn
+            rounded
+            outline
+            label="Login"
+            size="13px"
+            color="light-blue-3"
+          />
+        </div>
         <div class="q-pa-none q-ma-none">
           <q-item
             class="text-white"
