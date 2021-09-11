@@ -10,3 +10,30 @@
 .body--light .q-field--outlined.q-field--readonly .q-field__control:before {
     border-style: solid;
 }
+
+.notify-class-sucesso {
+    display: flex;
+    align-items: center;
+    background: #c8e6c9;
+    border: solid #439446;
+    border-width: 0 0 0 6px;
+    color: #224a23 !important;
+}
+
+.notify-class-alerta {
+    display: flex;
+    align-items: center;
+    background: #ffecb3;
+    border: solid #d9a300;
+    border-width: 0 0 0 6px;
+    color: #6d5100 !important;
+}
+
+.notify-class-erro {
+    display: flex;
+    align-items: center;
+    background: #ffcdd2;
+    border: solid #e60017;
+    border-width: 0 0 0 6px;
+    color: #73000c !important;
+}
