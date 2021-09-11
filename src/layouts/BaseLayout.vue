@@ -167,6 +167,7 @@
     <Login
       v-if="abrirLogin"
       :abrirLogin="abrirLogin"
+      @confirmarLogin="confirmarLogin($event)"
       @fecharModal="abrirLogin = $event"
     />
   </q-layout>
@@ -176,6 +177,7 @@
 import { Loading } from 'quasar';
 import { Vue, Component } from 'vue-property-decorator';
 import Login from 'src/modals/Login.vue';
+import { notificarErro, notificarSucesso } from 'src/util/NotifyUtil';
 
 @Component({ components: { Login } })
 export default class BaseLayout extends Vue {
@@ -195,6 +197,21 @@ export default class BaseLayout extends Vue {
       }, 1000);
     } else {
       this.mini = !this.mini;
+    }
+  }
+
+  confirmarLogin(retorno: boolean): void {
+    if (retorno) {
+      Loading.show({ message: `Carregando Início...` });
+      setTimeout(() => {
+        this.title = 'Início';
+        this.mini = true;
+        this.$router.push('/').catch(() => {});
+        Loading.hide();
+        notificarSucesso('Login efetuado com sucesso.');
+      }, 1000);
+    } else {
+      notificarErro('Houve um erro ao efetuar login.');
     }
   }
 }

@@ -68,9 +68,7 @@
 </template>
 
 <script lang="ts">
-import { Notify } from 'quasar';
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
-import { notificarSucesso } from 'src/util/NotifyUtil';
 
 @Component
 export default class Login extends Vue {
@@ -85,9 +83,14 @@ export default class Login extends Vue {
     return false;
   }
 
+  @Emit('confirmarLogin')
+  confirmarLogin(isLogado: boolean): boolean {
+    return isLogado;
+  }
+
   confirmar(): void {
-    notificarSucesso('Login efetuado com sucesso.');
     this.fecharModal();
+    this.confirmarLogin(true);
   }
 }
 </script>
