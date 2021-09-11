@@ -1,0 +1,95 @@
+<template>
+  <q-dialog v-model="abrirLogin" class="row items-center" color="warning">
+    <q-card style="min-width: 500px">
+      <q-card-section
+        class="row q-pa-sm"
+        style="display: flex; justify-content: space-between"
+      >
+        <div style="height: 34px; width: 34px"></div>
+        <div class="text-h6 text-center">
+          <span class="text-weight-bold" style="color: black">Login</span>
+        </div>
+        <q-btn
+          style="height: 34px; width: 34px"
+          icon="close"
+          color="negative"
+          flat
+          round
+          dense
+          @click="fecharModal()"
+        />
+      </q-card-section>
+      <q-separator color="black" />
+      <q-card-section>
+        <q-input
+          dense
+          outlined
+          hide-bottom-space
+          label="Login"
+          v-model="login"
+          ref="login"
+        />
+        <q-input
+          class="q-pt-sm"
+          type="password"
+          dense
+          outlined
+          hide-bottom-space
+          label="Senha"
+          v-model="password"
+          ref="password"
+        />
+      </q-card-section>
+      <q-separator color="black" />
+      <q-card-actions class="q-pb-sm q-pr-sm q-pt-sm float-right">
+        <div class="row">
+          <div class="q-pr-sm">
+            <q-btn
+              color="red-12"
+              dense
+              icon="undo"
+              label="Cancelar"
+              @click="fecharModal()"
+            />
+          </div>
+          <div>
+            <q-btn
+              color="light-green-8"
+              dense
+              icon="done"
+              label="Confirmar"
+              @click="confirmar()"
+            />
+          </div>
+        </div>
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+</template>
+
+<script lang="ts">
+import { Notify } from 'quasar';
+import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
+import { notificarSucesso } from 'src/util/NotifyUtil';
+
+@Component
+export default class Login extends Vue {
+  login = '';
+  password = '';
+
+  @Prop()
+  readonly abrirLogin: boolean;
+
+  @Emit('fecharModal')
+  fecharModal(): boolean {
+    return false;
+  }
+
+  confirmar(): void {
+    notificarSucesso('Login efetuado com sucesso.');
+    this.fecharModal();
+  }
+}
+</script>
+
+<style></style>
