@@ -34,7 +34,7 @@
             label="Cadastro"
             size="13px"
             color="light-blue-3"
-            @click="setRouter('/cadastroPage', 'Cadastro')"
+            @click="setRouter('/cadastroClientePage', 'Cadastro')"
           />
         </div>
         <div class="q-pr-sm q-ma-none">
@@ -110,7 +110,7 @@
             hide-dropdown-icon
             label="Cadastro"
             icon="settings"
-            @click="setRouter('/cadastroPage', 'Cadastro')"
+            @click="setRouter('/cadastroClientePage', 'Cadastro')"
           >
           </q-expansion-item>
           <q-tooltip

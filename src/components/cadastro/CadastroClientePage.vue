@@ -229,60 +229,7 @@
   </q-page>
 </template>
 
-<script lang="ts">
-import { QDate } from 'quasar';
-import { Pessoa } from 'src/entities/Pessoa';
-import {
-  formatarDataQDate,
-  getDataBD,
-  getDataFormatada
-} from 'src/util/DataUtil';
-import { mascaraCpfCnpj } from 'src/util/MaskUtil';
-import { Vue, Component } from 'vue-property-decorator';
-import { Estado, listaEstados } from 'src/util/Constantes';
-
-@Component
-export default class CadastroPage extends Vue {
-  pessoa = new Pessoa();
-  listaTipoTelefones: string[] = ['Celular', 'Residencial', 'Comercial', 'Fax'];
-  listaTipoLogradouros: string[] = [
-    'Rua',
-    'Avenida',
-    'Alameda',
-    'Travessa',
-    'Rodovia'
-  ];
-  listaEstados: Estado[] = [];
-
-  constructor() {
-    super();
-
-    this['getDataFormatada'] = getDataFormatada;
-    this['formatarData'] = formatarDataQDate;
-    this['getDataBD'] = getDataBD;
-    this['mascaraCpfCnpj'] = mascaraCpfCnpj;
-
-    this.listaEstados = [...listaEstados];
-  }
-
-  $refs!: {
-    qDateDataNascimento: QDate;
-  };
-
-  confirmar(): void {
-    console.log(this.pessoa);
-  }
-
-  hide(qDateRef: string): void {
-    this.$refs[qDateRef].hide();
-  }
-
-  atribuirData(data: string): void {
-    const formatoData = new Date(data);
-    this.pessoa.dataNascimento = getDataBD(formatoData);
-  }
-}
-</script>
+<script lang="ts" src="./CadastroClientePage.ts"></script>
 
 <style>
 .background-color-page {
