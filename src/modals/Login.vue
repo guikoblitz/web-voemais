@@ -1,5 +1,10 @@
 <template>
-  <q-dialog v-model="abrirLogin" class="row items-center" color="warning">
+  <q-dialog
+    v-model="abrirLogin"
+    class="row items-center"
+    persistent
+    color="warning"
+  >
     <q-card style="min-width: 500px">
       <q-card-section
         class="row q-pa-sm"

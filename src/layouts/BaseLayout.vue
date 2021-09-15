@@ -53,7 +53,7 @@
             style="justify-content: center"
             dense
             clickable
-            @click="setRouter('/', 'Inicio')"
+            @click="setRouter('/', 'Início')"
           >
             <q-item-section avatar class="q-pa-none">
               <q-img src="logo_raw.png" />
@@ -82,7 +82,7 @@
             hide-dropdown-icon
             label="Início"
             icon="home"
-            @click="setRouter('/', 'Inicio')"
+            @click="setRouter('/', 'Início')"
           >
           </q-expansion-item>
           <q-tooltip
@@ -202,14 +202,18 @@ export default class BaseLayout extends Vue {
 
   confirmarLogin(retorno: boolean): void {
     if (retorno) {
-      Loading.show({ message: 'Carregando Início...' });
-      setTimeout(() => {
-        this.title = 'Início';
-        this.mini = true;
-        this.$router.push('/').catch(() => {});
-        Loading.hide();
+      if (this.title !== 'Início') {
+        Loading.show({ message: 'Carregando Início...' });
+        setTimeout(() => {
+          this.title = 'Início';
+          this.mini = true;
+          this.$router.push('/').catch(() => {});
+          Loading.hide();
+          notificarSucesso('Login efetuado com sucesso.');
+        }, 1000);
+      } else {
         notificarSucesso('Login efetuado com sucesso.');
-      }, 1000);
+      }
     } else {
       notificarErro('Houve um erro ao efetuar login.');
     }
