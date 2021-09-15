@@ -1,10 +1,13 @@
 {
   "extends": "@quasar/app/tsconfig-preset",
   "compilerOptions": {
+    "incremental": true,
     "baseUrl": ".",
     "experimentalDecorators": true,
     "target": "es5",
     "strictPropertyInitialization": false,
     "noImplicitAny": false,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true
   },
 }
