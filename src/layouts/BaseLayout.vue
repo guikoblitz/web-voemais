@@ -138,7 +138,7 @@
             hide-dropdown-icon
             label="Pacotes"
             icon="flight_takeoff"
-            @click="setRouter('/pacotesPage', 'Pacotes')"
+            @click="setRouter('/cadastroPacotesPage', 'Cadastro de Pacotes')"
           >
           </q-expansion-item>
           <q-tooltip
