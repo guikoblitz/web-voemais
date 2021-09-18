@@ -12,8 +12,9 @@ const routes: RouteConfig[] = [
           import('src/components/cadastro/CadastroClientePage.vue')
       },
       {
-        path: 'pacotesPage',
-        component: () => import('src/components/pacotes/PacotesPage.vue')
+        path: 'cadastroPacotesPage',
+        component: () =>
+          import('src/components/pacotes/CadastroPacotesPage.vue')
       }
     ]
   },
