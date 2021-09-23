@@ -12,7 +12,7 @@ export function notificarSucesso(texto: string): void {
     actions: [
       {
         label: 'Ok',
-        color: 'white',
+        color: 'green-10',
         handler: () => {}
       }
     ]
@@ -31,7 +31,7 @@ export function notificarErro(texto: string): void {
     actions: [
       {
         label: 'Ok',
-        color: 'white',
+        color: 'red-10',
         handler: () => {}
       }
     ]
@@ -50,7 +50,7 @@ export function notificarAlerta(texto: string): void {
     actions: [
       {
         label: 'Ok',
-        color: 'white',
+        color: 'brown-6',
         handler: () => {}
       }
     ]

@@ -3,6 +3,10 @@ export class TravelPackage {
 
   id_travel_package_type: string;
 
+  id_country_origin: string;
+
+  id_country_destination: string;
+
   name_travel_package: string;
 
   description: string;
@@ -13,7 +17,7 @@ export class TravelPackage {
 
   start_date: Date;
 
-  end_date: Date;
+  end_date?: Date;
 
   unit_price: number;
 
