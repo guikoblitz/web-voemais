@@ -1,21 +1,26 @@
 import moment from 'moment';
-import { QDate } from 'quasar';
+import { Loading, QDate } from 'quasar';
 import { TravelPackage } from 'src/entities/TravelPackage';
 import { getDataFormatada, getDataHoraFormatada } from 'src/util/DataUtil';
 import { Vue, Component } from 'vue-property-decorator';
 import CurrencyInput from 'src/components/currency/VueCurrency.vue';
-import { notificarAlerta } from 'src/util/NotifyUtil';
+import {
+  notificarAlerta,
+  notificarErro,
+  notificarSucesso
+} from 'src/util/NotifyUtil';
+import TravelPackageTypesService from 'src/services/TravelPackageTypesService';
+import CountryService from 'src/services/CountryService';
+import TravelPackageService from 'src/services/TravelPackageService';
+import { TravelPackageType } from 'src/entities/TravelPackageType';
+import { Country } from 'src/entities/Country';
 
 @Component({ components: { CurrencyInput } })
 export default class CadastroPacotesPage extends Vue {
   travel_package = new TravelPackage();
   updateKeyForm = 0;
-  travel_package_types: string[] = [
-    'Celular',
-    'Residencial',
-    'Comercial',
-    'Fax'
-  ];
+  travel_package_types: TravelPackageType[] = [];
+  countries: Country[] = [];
   isDataInicialSelecionada = false;
   isDataInicialFinalizada = false;
   isDataFinalSelecionada = false;
@@ -41,6 +46,11 @@ export default class CadastroPacotesPage extends Vue {
     qDatePacoteDataFinal: QDate;
     file: any;
   };
+
+  async mounted(): Promise<void> {
+    this.travel_package_types = await TravelPackageTypesService.getTravelPackagesTypes();
+    this.countries = await CountryService.getCountries();
+  }
 
   buscarImagem(): void {
     if (this.$refs.file.files?.length > 0) {
@@ -71,8 +81,39 @@ export default class CadastroPacotesPage extends Vue {
     this.travel_package.promotion = false;
   }
 
-  confirmar(): void {
-    console.log(this.travel_package);
+  async confirmar(): Promise<void> {
+    try {
+      if (this.travel_package.id_travel_pack) {
+        Loading.show({ message: 'Atualizando Pacote de Viagem...' });
+
+        const returnUpdateTravelPackage = await TravelPackageService.updateTravelPackage(
+          this.travel_package
+        );
+        console.log(returnUpdateTravelPackage);
+
+        if (returnUpdateTravelPackage) {
+          notificarSucesso('Pacote de Viagem atualizado com sucesso!');
+        }
+      } else {
+        Loading.show({ message: 'Inserindo Pacote de Viagem...' });
+
+        const returnInsertTravelPackage = await TravelPackageService.createTravelPackage(
+          this.travel_package
+        );
+        console.log(returnInsertTravelPackage);
+
+        if (returnInsertTravelPackage) {
+          notificarSucesso('Pacote de Viagem inserido com sucesso!');
+          this.travel_package.id_travel_pack =
+            returnInsertTravelPackage.id_travel_pack;
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      notificarErro('Houve um erro ao executar esta ação.');
+    } finally {
+      Loading.hide();
+    }
   }
 
   hide(qDateRef: string): void {

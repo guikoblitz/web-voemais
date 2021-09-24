@@ -191,7 +191,9 @@
               dense
               outlined
               label="País de Origem"
-              :options="travel_package_types"
+              :options="countries"
+              option-label="name_country"
+              option-value="id_country"
               transition-show="flip-up"
               transition-hide="flip-down"
               hide-bottom-space
@@ -206,7 +208,9 @@
               dense
               outlined
               label="País de Destino"
-              :options="travel_package_types"
+              :options="countries"
+              option-label="name_country"
+              option-value="id_country"
               transition-show="flip-up"
               transition-hide="flip-down"
               hide-bottom-space
@@ -225,6 +229,8 @@
               transition-show="flip-up"
               transition-hide="flip-down"
               hide-bottom-space
+              option-label="travel_package_type"
+              option-value="id_travel_package_type"
               v-model="travel_package.id_travel_package_type"
               map-options
               emit-value

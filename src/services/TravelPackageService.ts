@@ -1,26 +1,15 @@
+import { TravelPackage } from 'src/entities/TravelPackage';
 import Api from './Api';
 
-interface ITravelPackage {
-  id_travel_pack: string;
-  id_travel_package_type: string;
-  id_country_origin: string;
-  id_country_destination: string;
-  name_travel_package: string;
-  description: string;
-  image: string;
-  promotion: boolean;
-  start_date: Date;
-  end_date: Date;
-  unit_price: number;
-}
-
 export default {
-  async createTravelPackage(travelPackage: ITravelPackage) {
+  async createTravelPackage(
+    travelPackage: TravelPackage
+  ): Promise<TravelPackage> {
     try {
       const response = await Api.post('/create-travel-package', travelPackage);
-      return response.data;
-    } catch (error) {
-      return console.log(error);
+      return response.data.travelPackages;
+    } catch (e) {
+      throw e;
     }
   },
 
@@ -33,7 +22,7 @@ export default {
     }
   },
 
-  async getTravelPackageId(travelPackage: ITravelPackage) {
+  async getTravelPackageId(travelPackage: TravelPackage) {
     try {
       const response = await Api.get(
         `/list-travel-packages/${travelPackage.id_travel_pack}`
@@ -44,7 +33,7 @@ export default {
     }
   },
 
-  async updateTravelPackage(travelPackage: ITravelPackage) {
+  async updateTravelPackage(travelPackage: TravelPackage) {
     try {
       const id = travelPackage.id_travel_pack;
       const response = await Api.put(
@@ -57,7 +46,7 @@ export default {
     }
   },
 
-  async deleteTravelPackage(travelPackage: ITravelPackage) {
+  async deleteTravelPackage(travelPackage: TravelPackage) {
     try {
       const response = await Api.delete(
         `/delete-travel-packages/${travelPackage.id_travel_pack}`
