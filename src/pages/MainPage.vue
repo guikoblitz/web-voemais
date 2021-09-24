@@ -1,88 +1,89 @@
 <template>
-  <q-page class="background-color-page q-pa-lg">
-    <div>
-      <q-img
-        src="../assets/balneario-camboriu-1.jpg"
-        class="image-carrosel"
-        :ratio="16 / 9"
-        position="50% 40%"
+  <q-page class="background-color-page q-pa-md">
+    <div class="row q-col-gutter-sm">
+      <div
+        v-for="(travelPackage, index) in travel_packages"
+        :key="travelPackage.id_travel_pack"
+        :class="index === 0 ? 'col-12' : 'col-6'"
       >
-        <div
-          class="absolute-bottom text-subtitle1 text-center"
-          style="cursor: pointer"
-        >
-          Balneário Camboriú
-        </div>
-      </q-img>
-    </div>
-    <div class="row q-col-gutter-sm q-pt-sm">
-      <div class="col-6">
-        <div>
+        <div v-if="index === 0">
           <q-img
-            src="../assets/banner-rio.jpg"
-            class="image-carrosel"
-            img-class="quadros-promocionais"
+            :src="getImgUrl(travelPackage.image)"
+            class="image-banner"
             :ratio="16 / 9"
+            position="50% 40%"
           >
             <div
-              class="absolute-bottom text-subtitle1 text-center image-subtitles"
+              class="absolute-top-right row"
+              style="background: none !important"
+            >
+              <div class="q-pr-xs">
+                <q-btn
+                  dense
+                  round
+                  color="yellow-8"
+                  icon="edit"
+                  size="10px"
+                  @click="editarPacote(travelPackage)"
+                />
+              </div>
+              <div>
+                <q-btn
+                  dense
+                  round
+                  color="red"
+                  icon="delete"
+                  size="10px"
+                  @click="confirmarExcluirPacote(travelPackage)"
+                />
+              </div>
+            </div>
+            <div
+              class="absolute-bottom text-subtitle1 text-center"
               style="cursor: pointer"
             >
-              Rio de Janeiro
+              {{ travelPackage.name_travel_package }}
             </div>
           </q-img>
         </div>
-      </div>
-      <div class="col-6">
-        <div>
+        <div v-else>
           <q-img
-            src="../assets/curitiba-1.jpg"
-            class="image-carrosel"
+            :src="getImgUrl(travelPackage.image)"
+            :alt="travelPackage.image"
+            class="image-promotions"
             img-class="quadros-promocionais"
-            position="50% 30%"
             :ratio="16 / 9"
           >
             <div
-              class="absolute-bottom text-subtitle1 text-center image-subtitles"
-              style="cursor: pointer"
+              class="absolute-top-right row"
+              style="background: none !important"
             >
-              Curitiba
+              <div class="q-pr-xs">
+                <q-btn
+                  dense
+                  round
+                  color="yellow-8"
+                  icon="edit"
+                  size="10px"
+                  @click="editarPacote(travelPackage)"
+                />
+              </div>
+              <div>
+                <q-btn
+                  dense
+                  round
+                  color="red"
+                  icon="delete"
+                  size="10px"
+                  @click="confirmarExcluirPacote(travelPackage)"
+                />
+              </div>
             </div>
-          </q-img>
-        </div>
-      </div>
-      <div class="col-6">
-        <div>
-          <q-img
-            src="../assets/sao-paulo-1.jpg"
-            class="image-carrosel"
-            img-class="quadros-promocionais"
-            position="50% 35%"
-            :ratio="16 / 9"
-          >
             <div
               class="absolute-bottom text-subtitle1 text-center image-subtitles"
               style="cursor: pointer"
             >
-              São Paulo
-            </div>
-          </q-img>
-        </div>
-      </div>
-      <div class="col-6">
-        <div>
-          <q-img
-            src="../assets/buenos-aires-1.jpg"
-            class="image-carrosel"
-            img-class="quadros-promocionais"
-            position="50% 45%"
-            :ratio="16 / 9"
-          >
-            <div
-              class="absolute-bottom text-subtitle1 text-center image-subtitles"
-              style="cursor: pointer"
-            >
-              Buenos Aires
+              {{ travelPackage.name_travel_package }}
             </div>
           </q-img>
         </div>
@@ -91,19 +92,19 @@
   </q-page>
 </template>
 
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-
-@Component({})
-export default class MainPage extends Vue {}
-</script>
+<script src="./MainPage.ts" />
 
 <style>
 .background-color-page {
   background-color: #e3f2fd;
 }
 
-.image-carrosel {
+.image-banner {
+  width: 100%;
+  height: 350px;
+}
+
+.image-promotions {
   width: 100%;
   height: 300px;
 }

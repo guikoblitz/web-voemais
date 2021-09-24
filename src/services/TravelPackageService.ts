@@ -33,7 +33,9 @@ export default {
     }
   },
 
-  async updateTravelPackage(travelPackage: TravelPackage) {
+  async updateTravelPackage(
+    travelPackage: TravelPackage
+  ): Promise<TravelPackage> {
     try {
       const id = travelPackage.id_travel_pack;
       const response = await Api.put(
@@ -41,19 +43,21 @@ export default {
         travelPackage
       );
       return response.data;
-    } catch (error) {
-      return console.log(error);
+    } catch (e) {
+      throw e;
     }
   },
 
-  async deleteTravelPackage(travelPackage: TravelPackage) {
+  async deleteTravelPackage(
+    travelPackage: TravelPackage
+  ): Promise<TravelPackage> {
     try {
       const response = await Api.delete(
         `/delete-travel-packages/${travelPackage.id_travel_pack}`
       );
       return response.data;
-    } catch (error) {
-      return console.log(error);
+    } catch (e) {
+      throw e;
     }
   }
 };
