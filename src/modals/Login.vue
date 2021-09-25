@@ -5,7 +5,7 @@
     persistent
     color="warning"
   >
-    <q-card style="min-width: 500px">
+    <q-card style="min-width: 500px" class="background-color-modal">
       <q-card-section
         class="row q-pa-sm"
         style="display: flex; justify-content: space-between"
@@ -100,4 +100,8 @@ export default class Login extends Vue {
 }
 </script>
 
-<style></style>
+<style>
+.background-color-modal {
+  background-color: #e3f2fd;
+}
+</style>
