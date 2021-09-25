@@ -239,6 +239,7 @@
           <div class="col-3 col-md-3">
             <currency-input
               v-model="travel_package.unit_price"
+              :key="updateKeyInput"
               :options="currencyOptions"
             />
           </div>

@@ -19,6 +19,7 @@ import { Country } from 'src/entities/Country';
 export default class CadastroPacotesPage extends Vue {
   travel_package = new TravelPackage();
   updateKeyForm = 0;
+  updateKeyInput = 0;
   travel_package_types: TravelPackageType[] = [];
   countries: Country[] = [];
   isDataInicialSelecionada = false;
@@ -48,8 +49,10 @@ export default class CadastroPacotesPage extends Vue {
   };
 
   async mounted(): Promise<void> {
+    Loading.show({ message: 'Carregando informações de Pacotes...' });
     this.travel_package_types = await TravelPackageTypesService.getTravelPackagesTypes();
     this.countries = await CountryService.getCountries();
+    Loading.hide();
   }
 
   buscarImagem(): void {
@@ -93,6 +96,7 @@ export default class CadastroPacotesPage extends Vue {
 
         if (returnUpdateTravelPackage) {
           notificarSucesso('Pacote de Viagem atualizado com sucesso!');
+          this.travel_package = new TravelPackage(); // TODO direcionar para a pagina inicial após implementar Vuex
         }
       } else {
         Loading.show({ message: 'Inserindo Pacote de Viagem...' });
@@ -106,8 +110,10 @@ export default class CadastroPacotesPage extends Vue {
           notificarSucesso('Pacote de Viagem inserido com sucesso!');
           this.travel_package.id_travel_pack =
             returnInsertTravelPackage.id_travel_pack;
+          this.travel_package = new TravelPackage(); // TODO direcionar para a pagina inicial após implementar Vuex
         }
       }
+      this.updateKeyInput++;
     } catch (e) {
       console.log(e);
       notificarErro('Houve um erro ao executar esta ação.');
