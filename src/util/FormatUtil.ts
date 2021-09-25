@@ -17,7 +17,8 @@ export function formatarDinheiro(valor, mostraMoeda = true): string {
   if (valor === 0) {
     valorFormatado = (mostraMoeda ? 'R$ ' : '') + '0,00';
   }
-  return `${valorFormatado}`;
+  const valorFormatadoString = `${valorFormatado}`;
+  return valorFormatadoString;
 }
 
 export function removerSiglaDinheiro(valor): string {
