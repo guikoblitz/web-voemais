@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@types/lodash": "^4.14.174",
     "@vue/composition-api": "^1.2.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "quasar": "^1.0.0",
     "vue-class-component": "^7.2.2",
