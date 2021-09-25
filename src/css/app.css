@@ -11,6 +11,10 @@
     border-style: solid;
 }
 
+.body--light .q-field__control {
+    background-color: #fafafa;
+}
+
 .notify-class-sucesso {
     display: flex;
     align-items: center;
