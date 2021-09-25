@@ -3,20 +3,49 @@ import TravelPackageService from 'src/services/TravelPackageService';
 import { TravelPackage } from 'src/entities/TravelPackage';
 import { Dialog, Loading } from 'quasar';
 import { notificarErro, notificarSucesso } from 'src/util/NotifyUtil';
+import CadastroPacotesModal from 'src/components/pacotes/CadastroPacotesModal.vue';
+import lodash from 'lodash';
+import { formatarDinheiro } from 'src/util/FormatUtil';
 
-@Component({})
+@Component({ components: { CadastroPacotesModal } })
 export default class MainPage extends Vue {
   travel_packages: TravelPackage[] = [];
+  selected_travel_package = new TravelPackage();
+  modal_title = '';
+  abrirCadastroPacotes = false;
+  editPackage = false;
+
+  constructor() {
+    super();
+
+    this['formatarDinheiro'] = formatarDinheiro;
+  }
 
   async mounted(): Promise<void> {
-    Loading.show({ message: 'Carregando Pacotes...' });
-    this.travel_packages = await TravelPackageService.getTravelPackages();
-    console.log(this.travel_packages);
-    Loading.hide();
+    await this.callPackageUpdates(true);
+  }
+
+  async callPackageUpdates(callUpdates: boolean): Promise<void> {
+    if (callUpdates) {
+      Loading.show({ message: 'Carregando Pacotes...' });
+      this.travel_packages = await TravelPackageService.getTravelPackages();
+      console.log(this.travel_packages);
+      Loading.hide();
+    }
+  }
+
+  criarPacote(): void {
+    this.editPackage = false;
+    this.modal_title = 'Criar Pacote de Viagem';
+    this.selected_travel_package = new TravelPackage();
+    this.abrirCadastroPacotes = true;
   }
 
   editarPacote(travelPackage: TravelPackage): void {
-    console.log(travelPackage.name_travel_package);
+    this.editPackage = true;
+    this.modal_title = 'Editar Pacote de Viagem';
+    this.selected_travel_package = lodash.cloneDeep(travelPackage);
+    this.abrirCadastroPacotes = true;
   }
 
   confirmarExcluirPacote(travelPackage: TravelPackage): void {

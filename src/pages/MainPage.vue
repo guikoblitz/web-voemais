@@ -39,10 +39,14 @@
               </div>
             </div>
             <div
-              class="absolute-bottom text-subtitle1 text-center"
+              class="absolute-bottom text-subtitle1 text-center image-subtitles"
               style="cursor: pointer"
             >
-              {{ travelPackage.name_travel_package }}
+              {{
+                travelPackage.name_travel_package +
+                  ' - ' +
+                  formatarDinheiro(travelPackage.unit_price)
+              }}
             </div>
           </q-img>
         </div>
@@ -83,12 +87,36 @@
               class="absolute-bottom text-subtitle1 text-center image-subtitles"
               style="cursor: pointer"
             >
-              {{ travelPackage.name_travel_package }}
+              {{
+                travelPackage.name_travel_package +
+                  ' - ' +
+                  formatarDinheiro(travelPackage.unit_price)
+              }}
             </div>
           </q-img>
         </div>
       </div>
     </div>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn @click="criarPacote()" round icon="add" color="blue-6">
+        <q-tooltip
+          anchor="top middle"
+          content-style="font-size: 12px"
+          self="center left"
+        >
+          <span>Adicionar Pacote de Viagem</span>
+        </q-tooltip>
+      </q-btn>
+    </q-page-sticky>
+    <CadastroPacotesModal
+      v-if="abrirCadastroPacotes"
+      :modal_title="modal_title"
+      :editPackage="editPackage"
+      :received_travel_package="selected_travel_package"
+      :abrirCadastroPacotes="abrirCadastroPacotes"
+      @closeModal="abrirCadastroPacotes = $event"
+      @callPackageUpdates="callPackageUpdates($event)"
+    />
   </q-page>
 </template>
 
@@ -102,6 +130,7 @@
 .image-banner {
   width: 100%;
   height: 350px;
+  border-radius: 18px;
 }
 
 .image-promotions {

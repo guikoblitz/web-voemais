@@ -19,7 +19,7 @@ export class TravelPackage {
 
   end_date?: Date;
 
-  unit_price: number;
+  unit_price?: number;
 
   created_at: Date;
 
