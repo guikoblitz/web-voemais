@@ -26,8 +26,20 @@
         />
       </q-card-section>
       <q-separator color="black" />
-      <q-card-section>
+      <q-card-section class="q-px-md q-py-sm">
         <div class="row q-col-gutter-sm">
+          <div
+            v-if="travel_package.image"
+            style="height: 300px"
+            class="col-12 col-md-12"
+          >
+            <q-img
+              :src="getImgUrl(travel_package.image)"
+              img-class="quadros-promocionais"
+              :ratio="16 / 9"
+              style="height: 100%"
+            />
+          </div>
           <div class="col-6 col-md-6">
             <q-input
               dense
@@ -35,11 +47,13 @@
               hide-bottom-space
               label="Nome"
               ref="pacoteNome"
+              :readonly="visualizePackage"
               v-model="travel_package.name_travel_package"
               @keyup.enter="$event.target.blur()"
             >
               <template v-slot:append>
                 <q-icon
+                  v-if="!visualizePackage"
                   class="no-shadow"
                   name="close"
                   flat
@@ -66,10 +80,12 @@
               hide-bottom-space
               label="Imagem"
               ref="pacoteImagem"
+              :readonly="visualizePackage"
               v-model="travel_package.image"
             >
               <template v-slot:append>
                 <q-icon
+                  v-if="!visualizePackage"
                   name="search"
                   class="cursor-pointer"
                   @click="$refs.file.click()"
@@ -97,6 +113,7 @@
             >
               <template v-slot:append>
                 <q-icon
+                  v-if="!visualizePackage"
                   class="no-shadow"
                   name="close"
                   flat
@@ -113,6 +130,7 @@
                   </q-tooltip>
                 </q-icon>
                 <q-icon
+                  v-if="!visualizePackage"
                   name="event"
                   class="cursor-pointer"
                   @click="limparDataFinal()"
@@ -159,12 +177,13 @@
               hide-bottom-space
               label="Data Final"
               readonly
-              :disable="!isDataInicialFinalizada"
+              :disable="!isDataInicialFinalizada && !visualizePackage"
               :value="getDataHoraFormatada(travel_package.end_date)"
               ref="pacoteDataFinal"
             >
               <template v-slot:append>
                 <q-icon
+                  v-if="!visualizePackage"
                   class="no-shadow"
                   name="close"
                   flat
@@ -180,7 +199,11 @@
                     <strong>Remover Data Final</strong>
                   </q-tooltip>
                 </q-icon>
-                <q-icon name="event" class="cursor-pointer">
+                <q-icon
+                  v-if="!visualizePackage"
+                  name="event"
+                  class="cursor-pointer"
+                >
                   <q-popup-proxy
                     transition-show="scale"
                     transition-hide="scale"
@@ -216,6 +239,8 @@
               dense
               outlined
               label="País de Origem"
+              :readonly="visualizePackage"
+              :hide-dropdown-icon="visualizePackage"
               :options="countries"
               option-label="name_country"
               option-value="id_country"
@@ -233,6 +258,8 @@
               dense
               outlined
               label="País de Destino"
+              :readonly="visualizePackage"
+              :hide-dropdown-icon="visualizePackage"
               :options="countries"
               option-label="name_country"
               option-value="id_country"
@@ -250,6 +277,8 @@
               dense
               outlined
               label="Tipo de Pacote"
+              :readonly="visualizePackage"
+              :hide-dropdown-icon="visualizePackage"
               :options="travel_package_types"
               transition-show="flip-up"
               transition-hide="flip-down"
@@ -262,14 +291,29 @@
             />
           </div>
           <div class="col-3 col-md-3">
+            <q-input
+              v-if="visualizePackage"
+              dense
+              outlined
+              hide-bottom-space
+              label="Valor do Pacote (R$)"
+              ref="pacoteValorReadonly"
+              :readonly="visualizePackage"
+              :value="formatarDinheiro(travel_package.unit_price)"
+            />
             <currency-input
+              v-else
+              :readonly="visualizePackage"
               v-model="travel_package.unit_price"
               :key="updateKeyInput"
               :options="currencyOptions"
             />
           </div>
           <div class="col-3 col-md-3 text-center">
-            <q-toggle v-model="travel_package.promotion" ref="pacotePromocao"
+            <q-toggle
+              :disable="visualizePackage"
+              v-model="travel_package.promotion"
+              ref="pacotePromocao"
               >Promoção</q-toggle
             >
           </div>
@@ -279,6 +323,7 @@
               outlined
               hide-bottom-space
               label="Descrição"
+              :readonly="visualizePackage"
               type="textarea"
               rows="3"
               v-model="travel_package.description"
@@ -313,7 +358,7 @@
               class="q-px-xs"
               color="red"
               text-color="white"
-              label="Cancelar"
+              :label="visualizePackage ? 'Fechar' : 'Cancelar'"
               @click="closeModal()"
             />
           </div>
@@ -323,8 +368,8 @@
               class="q-px-xs"
               color="green"
               text-color="white"
-              label="Confirmar"
-              @click="confirmar()"
+              :label="visualizePackage ? 'Adquirir' : 'Confirmar'"
+              @click="visualizePackage ? adquirir() : confirmar()"
             />
           </div>
         </div>
@@ -338,5 +383,11 @@
 <style>
 .background-color-modal {
   background-color: #e3f2fd;
+}
+
+.quadros-promocionais {
+  width: 100%;
+  height: 300px;
+  border-radius: 18px;
 }
 </style>

@@ -1,6 +1,9 @@
 import { getValorNumber } from './GenericUtil';
 
-export function formatarDinheiro(valor, mostraMoeda = true): string {
+export function formatarDinheiro(
+  valor: string | number,
+  mostraMoeda = true
+): string {
   if (!valor) {
     valor = 0;
   }

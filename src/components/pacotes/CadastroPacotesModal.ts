@@ -16,6 +16,7 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
 import lodash from 'lodash';
 import TravelPackageService from 'src/services/TravelPackageService';
 import { getValorNumber } from 'src/util/GenericUtil';
+import { formatarDinheiro } from 'src/util/FormatUtil';
 
 @Component({ components: { CurrencyInput } })
 export default class CadastroPacotesModal extends Vue {
@@ -50,6 +51,7 @@ export default class CadastroPacotesModal extends Vue {
     this['getDataFormatada'] = getDataFormatada;
     this['getDataHoraFormatada'] = getDataHoraFormatada;
     this['getValorNumber'] = getValorNumber;
+    this['formatarDinheiro'] = formatarDinheiro;
   }
 
   $refs!: {
@@ -60,6 +62,9 @@ export default class CadastroPacotesModal extends Vue {
 
   @Prop()
   readonly abrirCadastroPacotes: boolean;
+
+  @Prop()
+  readonly visualizePackage: boolean;
 
   @Prop()
   readonly editPackage: boolean;
@@ -118,6 +123,14 @@ export default class CadastroPacotesModal extends Vue {
   limpar(): void {
     // this.travel_package = new TravelPackage();
     this.travel_package.promotion = false;
+  }
+
+  adquirir(): void {
+    notificarSucesso(
+      `Parabéns! Você adquiriu o Pacote de Viagem "${this.travel_package.name_travel_package}"!`
+    );
+    this.closeModal();
+    this.callPackageUpdates();
   }
 
   async confirmar(): Promise<void> {
@@ -213,5 +226,9 @@ export default class CadastroPacotesModal extends Vue {
   limparDataFinal(): void {
     delete this.travel_package.end_date;
     this.isDataInicialFinalizada = false;
+  }
+
+  getImgUrl(imagePath: string): string {
+    return `imagens_pacotes/${imagePath}`;
   }
 }

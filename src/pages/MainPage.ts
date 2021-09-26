@@ -14,6 +14,7 @@ export default class MainPage extends Vue {
   modal_title = '';
   abrirCadastroPacotes = false;
   editPackage = false;
+  visualizePackage = false;
 
   constructor() {
     super();
@@ -34,21 +35,31 @@ export default class MainPage extends Vue {
     }
   }
 
-  criarPacote(): void {
+  visualizeTravelPackage(travelPackage: TravelPackage): void {
     this.editPackage = false;
+    this.visualizePackage = true;
+    this.modal_title = 'Visualizar Pacote de Viagem';
+    this.selected_travel_package = lodash.cloneDeep(travelPackage);
+    this.abrirCadastroPacotes = true;
+  }
+
+  createTravelPackage(): void {
+    this.editPackage = false;
+    this.visualizePackage = false;
     this.modal_title = 'Criar Pacote de Viagem';
     this.selected_travel_package = new TravelPackage();
     this.abrirCadastroPacotes = true;
   }
 
-  editarPacote(travelPackage: TravelPackage): void {
+  editTravelPackage(travelPackage: TravelPackage): void {
     this.editPackage = true;
+    this.visualizePackage = false;
     this.modal_title = 'Editar Pacote de Viagem';
     this.selected_travel_package = lodash.cloneDeep(travelPackage);
     this.abrirCadastroPacotes = true;
   }
 
-  confirmarExcluirPacote(travelPackage: TravelPackage): void {
+  askDeletePackage(travelPackage: TravelPackage): void {
     Dialog.create({
       title: 'Excluir Pacote de Viagem',
       message: `Tem certeza de que deseja excluir o pacote de viagem "${travelPackage.name_travel_package}"?`,
@@ -57,12 +68,12 @@ export default class MainPage extends Vue {
       persistent: true
     })
       .onOk(async () => {
-        await this.excluirPacote(travelPackage);
+        await this.deletePackage(travelPackage);
       })
       .onCancel(() => {});
   }
 
-  async excluirPacote(travelPackage: TravelPackage): Promise<void> {
+  async deletePackage(travelPackage: TravelPackage): Promise<void> {
     try {
       Loading.show({ message: 'Excluindo Pacote de Viagem...' });
 

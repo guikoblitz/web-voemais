@@ -12,6 +12,8 @@
             class="image-banner"
             :ratio="16 / 9"
             position="50% 40%"
+            @click="visualizeTravelPackage(travelPackage)"
+            style="cursor: pointer"
           >
             <div
               class="absolute-top-right row"
@@ -24,7 +26,7 @@
                   color="yellow-8"
                   icon="edit"
                   size="10px"
-                  @click="editarPacote(travelPackage)"
+                  @click="editTravelPackage(travelPackage)"
                 />
               </div>
               <div>
@@ -34,13 +36,12 @@
                   color="red"
                   icon="delete"
                   size="10px"
-                  @click="confirmarExcluirPacote(travelPackage)"
+                  @click="askDeletePackage(travelPackage)"
                 />
               </div>
             </div>
             <div
               class="absolute-bottom text-subtitle1 text-center image-subtitles"
-              style="cursor: pointer"
             >
               {{
                 travelPackage.name_travel_package +
@@ -57,6 +58,8 @@
             class="image-promotions"
             img-class="quadros-promocionais"
             :ratio="16 / 9"
+            @click="visualizeTravelPackage(travelPackage)"
+            style="cursor: pointer"
           >
             <div
               class="absolute-top-right row"
@@ -69,7 +72,7 @@
                   color="yellow-8"
                   icon="edit"
                   size="10px"
-                  @click="editarPacote(travelPackage)"
+                  @click="editTravelPackage(travelPackage)"
                 />
               </div>
               <div>
@@ -85,7 +88,6 @@
             </div>
             <div
               class="absolute-bottom text-subtitle1 text-center image-subtitles"
-              style="cursor: pointer"
             >
               {{
                 travelPackage.name_travel_package +
@@ -98,7 +100,7 @@
       </div>
     </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn @click="criarPacote()" round icon="add" color="blue-6">
+      <q-btn @click="createTravelPackage()" round icon="add" color="blue-6">
         <q-tooltip
           anchor="top middle"
           content-style="font-size: 12px"
@@ -113,6 +115,7 @@
       :modal_title="modal_title"
       :editPackage="editPackage"
       :received_travel_package="selected_travel_package"
+      :visualizePackage="visualizePackage"
       :abrirCadastroPacotes="abrirCadastroPacotes"
       @closeModal="abrirCadastroPacotes = $event"
       @callPackageUpdates="callPackageUpdates($event)"
