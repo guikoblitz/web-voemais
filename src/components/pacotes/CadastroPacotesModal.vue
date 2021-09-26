@@ -80,7 +80,6 @@
               hide-bottom-space
               label="Imagem"
               ref="pacoteImagem"
-              :readonly="visualizePackage"
               v-model="travel_package.image"
             >
               <template v-slot:append>
