@@ -80,7 +80,7 @@
                   color="red"
                   icon="delete"
                   size="10px"
-                  @click="confirmarExcluirPacote(travelPackage)"
+                  @click="askDeletePackage(travelPackage)"
                 />
               </div>
             </div>
