@@ -171,6 +171,17 @@
             </q-input>
           </div>
           <div class="col-6 col-md-6">
+            <q-tooltip
+              v-if="!isDataInicialFinalizada"
+              anchor="top middle"
+              content-style="font-size: 12px"
+              self="center start"
+              :offset="[10, 10]"
+            >
+              <strong
+                >Selecione uma Data Inicial para habilitar a edição</strong
+              >
+            </q-tooltip>
             <q-input
               dense
               outlined

@@ -91,8 +91,11 @@ export default class CadastroPacotesModal extends Vue {
 
   async mounted(): Promise<void> {
     Loading.show({ message: 'Carregando informações de Pacotes...' });
+    console.log(this.editPackage);
+    console.log(this.visualizePackage);
     this.travel_package_types = await TravelPackageTypesService.getTravelPackagesTypes();
     this.countries = await CountryService.getCountries();
+    this.$forceUpdate();
     Loading.hide();
   }
 

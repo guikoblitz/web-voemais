@@ -12,8 +12,6 @@
             class="image-banner"
             :ratio="16 / 9"
             position="50% 40%"
-            @click="visualizeTravelPackage(travelPackage)"
-            style="cursor: pointer"
           >
             <div
               class="absolute-top-right row"
@@ -42,6 +40,8 @@
             </div>
             <div
               class="absolute-bottom text-subtitle1 text-center image-subtitles"
+              @click="visualizeTravelPackage(travelPackage)"
+              style="cursor: pointer"
             >
               {{
                 travelPackage.name_travel_package +
@@ -58,8 +58,6 @@
             class="image-promotions"
             img-class="quadros-promocionais"
             :ratio="16 / 9"
-            @click="visualizeTravelPackage(travelPackage)"
-            style="cursor: pointer"
           >
             <div
               class="absolute-top-right row"
@@ -88,6 +86,8 @@
             </div>
             <div
               class="absolute-bottom text-subtitle1 text-center image-subtitles"
+              @click="visualizeTravelPackage(travelPackage)"
+              style="cursor: pointer"
             >
               {{
                 travelPackage.name_travel_package +
