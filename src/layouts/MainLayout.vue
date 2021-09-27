@@ -130,7 +130,7 @@
           "
           class="q-ma-none"
         />
-        <div>
+        <!-- <div>
           <q-expansion-item
             ref="menupacotes"
             group="menuLateral"
@@ -149,7 +149,7 @@
           >
             <strong>Pacotes</strong>
           </q-tooltip>
-        </div>
+        </div> -->
         <hr
           style="
             border: 0;
