@@ -31,3 +31,19 @@ export function removerSiglaDinheiro(valor): string {
   valor = valor.replace(' ', '');
   return valor;
 }
+
+export function formatarValor(valor) {
+  let valorFormatado = valor.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+  valorFormatado = replaceAll(valorFormatado, ',', '*');
+  valorFormatado = replaceAll(valorFormatado, '.', '');
+  valorFormatado = replaceAll(valorFormatado, '*', '.');
+  valorFormatado = removerSiglaDinheiro(valorFormatado);
+  return `${valorFormatado}`;
+}
+
+export function replaceAll(string, search, replace) {
+  return string.split(search).join(replace);
+}

@@ -7,6 +7,9 @@
     label="Valor do Pacote (R$)"
     :value="formattedValue"
     @keyup.enter="$event.target.blur()"
+    @input="parent.resetarErroCampo(fieldName)"
+    :error="parent.formValidator.isError(fieldName)"
+    :error-message="parent.formValidator.getError(fieldName)"
   />
 </template>
 
@@ -17,7 +20,9 @@ export default {
   name: 'CurrencyInput',
   props: {
     value: Number, // Vue 2: value
-    options: Object
+    options: Object,
+    fieldName: String,
+    parent: Object
   },
   setup(props) {
     const { formattedValue, inputRef } = useCurrencyInput(props.options);

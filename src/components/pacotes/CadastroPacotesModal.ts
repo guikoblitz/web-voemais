@@ -17,14 +17,16 @@ import lodash from 'lodash';
 import TravelPackageService from 'src/services/TravelPackageService';
 import { getValorNumber } from 'src/util/GenericUtil';
 import { formatarDinheiro } from 'src/util/FormatUtil';
+import CadastroPacotesValidator from './util/CadastroPacotesValidator';
 
 @Component({ components: { CurrencyInput } })
 export default class CadastroPacotesModal extends Vue {
-  updateKeyForm = 0;
-  updateKeyInput = 0;
   travel_package_types: TravelPackageType[] = [];
   travel_package = new TravelPackage();
+  formValidator = new CadastroPacotesValidator(this.$refs);
   countries: Country[] = [];
+  updateKeyForm = 0;
+  updateKeyInput = 0;
   isDataInicialSelecionada = false;
   isDataInicialFinalizada = false;
   isDataFinalSelecionada = false;
@@ -91,8 +93,6 @@ export default class CadastroPacotesModal extends Vue {
 
   async mounted(): Promise<void> {
     Loading.show({ message: 'Carregando informações de Pacotes...' });
-    console.log(this.editPackage);
-    console.log(this.visualizePackage);
     this.travel_package_types = await TravelPackageTypesService.getTravelPackagesTypes();
     this.countries = await CountryService.getCountries();
     this.$forceUpdate();
@@ -104,6 +104,7 @@ export default class CadastroPacotesModal extends Vue {
       const file = this.$refs.file.files[0] as File;
       if (file.type === 'image/jpeg' || file.type === 'image/png') {
         this.travel_package.image = file.name;
+        this.resetarErroCampo('image');
         this.$forceUpdate();
       } else {
         notificarAlerta('Selecione uma Imagem válida.');
@@ -138,40 +139,42 @@ export default class CadastroPacotesModal extends Vue {
 
   async confirmar(): Promise<void> {
     try {
-      if (this.editPackage) {
-        Loading.show({ message: 'Atualizando Pacote de Viagem...' });
+      if (this.formValidator.validateForm(this.travel_package)) {
+        if (this.editPackage) {
+          Loading.show({ message: 'Atualizando Pacote de Viagem...' });
 
-        const returnUpdateTravelPackage = await TravelPackageService.updateTravelPackage(
-          this.travel_package
-        );
-        console.log(returnUpdateTravelPackage);
+          const returnUpdateTravelPackage = await TravelPackageService.updateTravelPackage(
+            this.travel_package
+          );
+          console.log(returnUpdateTravelPackage);
 
-        if (returnUpdateTravelPackage) {
-          notificarSucesso('Pacote de Viagem atualizado com sucesso!');
-          this.travel_package = new TravelPackage();
+          if (returnUpdateTravelPackage) {
+            notificarSucesso('Pacote de Viagem atualizado com sucesso!');
+            this.travel_package = new TravelPackage();
+          }
+        } else {
+          Loading.show({ message: 'Inserindo Pacote de Viagem...' });
+
+          const returnInsertTravelPackage = await TravelPackageService.createTravelPackage(
+            this.travel_package
+          );
+          console.log(returnInsertTravelPackage);
+
+          if (returnInsertTravelPackage) {
+            notificarSucesso('Pacote de Viagem inserido com sucesso!');
+            this.travel_package.id_travel_pack =
+              returnInsertTravelPackage.id_travel_pack;
+            this.travel_package = new TravelPackage();
+          }
         }
-      } else {
-        Loading.show({ message: 'Inserindo Pacote de Viagem...' });
-
-        const returnInsertTravelPackage = await TravelPackageService.createTravelPackage(
-          this.travel_package
-        );
-        console.log(returnInsertTravelPackage);
-
-        if (returnInsertTravelPackage) {
-          notificarSucesso('Pacote de Viagem inserido com sucesso!');
-          this.travel_package.id_travel_pack =
-            returnInsertTravelPackage.id_travel_pack;
-          this.travel_package = new TravelPackage();
-        }
+        this.updateKeyInput++;
+        this.closeModal();
+        this.callPackageUpdates();
       }
-      this.updateKeyInput++;
     } catch (e) {
       console.log(e);
       notificarErro('Houve um erro ao executar esta ação.');
     } finally {
-      this.closeModal();
-      this.callPackageUpdates();
       Loading.hide();
     }
   }
@@ -229,6 +232,10 @@ export default class CadastroPacotesModal extends Vue {
   limparDataFinal(): void {
     delete this.travel_package.end_date;
     this.isDataInicialFinalizada = false;
+  }
+
+  resetarErroCampo(nomeCampo: string): void {
+    this.formValidator.resetError(nomeCampo);
   }
 
   getImgUrl(imagePath: string): string {

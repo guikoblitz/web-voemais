@@ -50,6 +50,9 @@
               :readonly="visualizePackage"
               v-model="travel_package.name_travel_package"
               @keyup.enter="$event.target.blur()"
+              @input="resetarErroCampo('name_travel_package')"
+              :error="formValidator.isError('name_travel_package')"
+              :error-message="formValidator.getError('name_travel_package')"
             >
               <template v-slot:append>
                 <q-icon
@@ -81,6 +84,8 @@
               label="Imagem"
               ref="pacoteImagem"
               v-model="travel_package.image"
+              :error="formValidator.isError('image')"
+              :error-message="formValidator.getError('image')"
             >
               <template v-slot:append>
                 <q-icon
@@ -109,6 +114,8 @@
               readonly
               :value="getDataHoraFormatada(travel_package.start_date)"
               ref="pacoteDataInicial"
+              :error="formValidator.isError('start_date')"
+              :error-message="formValidator.getError('start_date')"
             >
               <template v-slot:append>
                 <q-icon
@@ -162,6 +169,7 @@
                         isDataInicialFinalizada = true;
                         adequarData(travel_package.start_date, 'dataInicial');
                         hide('qDatePacoteDataInicial');
+                        resetarErroCampo('start_date');
                       "
                     />
                   </q-popup-proxy>
@@ -190,6 +198,8 @@
               :disable="!isDataInicialFinalizada && !visualizePackage"
               :value="getDataHoraFormatada(travel_package.end_date)"
               ref="pacoteDataFinal"
+              :error="formValidator.isError('end_date')"
+              :error-message="formValidator.getError('end_date')"
             >
               <template v-slot:append>
                 <q-icon
@@ -236,6 +246,7 @@
                         isDataFinalSelecionada = false;
                         adequarData(travel_package.end_date, 'dataFinal');
                         hide('qDatePacoteDataFinal');
+                        resetarErroCampo('end_date');
                       "
                     />
                   </q-popup-proxy>
@@ -260,6 +271,9 @@
               v-model="travel_package.id_country_origin"
               map-options
               emit-value
+              :error="formValidator.isError('id_country_origin')"
+              :error-message="formValidator.getError('id_country_origin')"
+              @input="resetarErroCampo('id_country_origin')"
             />
           </div>
           <div class="col-6 col-md-6">
@@ -279,6 +293,9 @@
               v-model="travel_package.id_country_destination"
               map-options
               emit-value
+              :error="formValidator.isError('id_country_destination')"
+              :error-message="formValidator.getError('id_country_destination')"
+              @input="resetarErroCampo('id_country_destination')"
             />
           </div>
           <div class="col-6 col-md-6">
@@ -298,6 +315,9 @@
               v-model="travel_package.id_travel_package_type"
               map-options
               emit-value
+              :error="formValidator.isError('id_travel_package_type')"
+              :error-message="formValidator.getError('id_travel_package_type')"
+              @input="resetarErroCampo('id_travel_package_type')"
             />
           </div>
           <div class="col-3 col-md-3">
@@ -317,6 +337,8 @@
               v-model="travel_package.unit_price"
               :key="updateKeyInput"
               :options="currencyOptions"
+              :fieldName="'unit_price'"
+              :parent="this"
             />
           </div>
           <div class="col-3 col-md-3 text-center">
@@ -333,11 +355,16 @@
               outlined
               hide-bottom-space
               label="Descrição"
+              counter
+              maxlength="250"
               :readonly="visualizePackage"
               type="textarea"
               rows="3"
               v-model="travel_package.description"
               ref="pacoteDescricao"
+              :error="formValidator.isError('description')"
+              :error-message="formValidator.getError('description')"
+              @input="resetarErroCampo('description')"
             />
           </div>
         </div>
