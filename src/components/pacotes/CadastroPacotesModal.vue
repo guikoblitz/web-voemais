@@ -26,7 +26,7 @@
         />
       </q-card-section>
       <q-separator color="black" />
-      <q-card-section class="q-px-md q-py-sm">
+      <q-card-section class="q-pa-sm">
         <div class="row q-col-gutter-sm">
           <div
             v-if="travel_package.image"
@@ -389,7 +389,6 @@
         </div>
         <div class="row justify-end">
           <div class="q-pr-sm">
-            <!-- TODO Será implementado quando virar modal -->
             <q-btn
               icon="close"
               class="q-px-xs"

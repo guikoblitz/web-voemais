@@ -1,4 +1,4 @@
-import moment from 'moment';
+// import moment from 'moment';
 import { TravelPackage } from 'src/entities/TravelPackage';
 import FormValidator from 'src/util/FormValidator';
 
