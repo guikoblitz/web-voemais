@@ -11,9 +11,31 @@ export class User {
 
   employee: boolean;
 
-  date_birth: Date;
+  date_birth: Date | string;
 
   password: string;
+
+  id_country: string;
+
+  name_state: string;
+
+  name_city: string;
+
+  name_neighborhood: string;
+
+  id_street: string;
+
+  name_address: string;
+
+  num_address: string;
+
+  complement: string;
+
+  cep: string;
+
+  id_phone_type: string;
+
+  num_phone: string;
 
   created_at: Date;
 
