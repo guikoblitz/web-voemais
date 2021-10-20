@@ -221,7 +221,7 @@ export default class CadastroPacotesModal extends Vue {
     }
   }
 
-  adequarData(data: string, nomeCampo: string): void {
+  handleDates(data: string, nomeCampo: string): void {
     if (nomeCampo === 'dataInicial') {
       this.travel_package.start_date = new Date(data);
     } else {

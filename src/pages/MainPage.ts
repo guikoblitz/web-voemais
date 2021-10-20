@@ -30,7 +30,6 @@ export default class MainPage extends Vue {
     if (callUpdates) {
       Loading.show({ message: 'Carregando Pacotes...' });
       this.travel_packages = await TravelPackageService.getTravelPackages();
-      console.log(this.travel_packages);
       Loading.hide();
     }
   }
@@ -81,7 +80,6 @@ export default class MainPage extends Vue {
       const returnDeleteTravelPackage = await TravelPackageService.deleteTravelPackage(
         travelPackage
       );
-      console.log(returnDeleteTravelPackage);
 
       if (returnDeleteTravelPackage) {
         notificarSucesso('Pacote de Viagem excluído com sucesso!');

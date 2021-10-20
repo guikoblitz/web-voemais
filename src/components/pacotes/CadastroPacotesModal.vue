@@ -167,7 +167,7 @@
                       @input="
                         isDataInicialSelecionada = false;
                         isDataInicialFinalizada = true;
-                        adequarData(travel_package.start_date, 'dataInicial');
+                        handleDates(travel_package.start_date, 'dataInicial');
                         hide('qDatePacoteDataInicial');
                         resetarErroCampo('start_date');
                       "
@@ -244,7 +244,7 @@
                       :options="validarOptionsHoraFinal"
                       @input="
                         isDataFinalSelecionada = false;
-                        adequarData(travel_package.end_date, 'dataFinal');
+                        handleDates(travel_package.end_date, 'dataFinal');
                         hide('qDatePacoteDataFinal');
                         resetarErroCampo('end_date');
                       "
