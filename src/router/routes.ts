@@ -7,9 +7,8 @@ const routes: RouteConfig[] = [
     children: [
       { path: '', component: () => import('pages/MainPage.vue') },
       {
-        path: 'cadastroClientePage',
-        component: () =>
-          import('src/components/cadastro/CadastroClientePage.vue')
+        path: 'cadastroUsersModal',
+        component: () => import('src/components/users/CadastroUsersModal.vue')
       },
       {
         path: 'cadastroPacotesPage',

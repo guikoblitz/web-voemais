@@ -1,52 +1,7 @@
 <template>
-  <!-- <q-layout view="lHh Lpr lFf"> -->
   <q-layout view="hHh LpR lfr">
     <q-header elevated>
-      <q-toolbar>
-        <!-- <div class="q-pa-none q-ma-none" v-if="!mini" style="width: 200px">
-          <q-item
-            class="text-white"
-            style="justify-content: center"
-            dense
-            clickable
-          >
-            <q-item-section avatar>
-              <q-img src="logo_raw.png" />
-            </q-item-section>
-          </q-item>
-        </div> -->
-        <!-- <q-separator v-if="!mini" vertical inset class="separador" /> -->
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="mini = !mini"
-        />
-
-        <q-toolbar-title> {{ title }} </q-toolbar-title>
-
-        <div class="q-pr-sm q-ma-none">
-          <q-btn
-            rounded
-            outline
-            label="Cadastro"
-            size="13px"
-            color="light-blue-3"
-            @click="setRouter('/cadastroClientePage', 'Cadastro')"
-          />
-        </div>
-        <div class="q-pr-sm q-ma-none">
-          <q-btn
-            rounded
-            outline
-            label="Login"
-            size="13px"
-            color="light-blue-3"
-            @click="abrirLogin = true"
-          />
-        </div>
+      <q-toolbar class="q-pl-none">
         <div class="q-pa-none q-ma-none">
           <q-item
             class="text-white"
@@ -60,106 +15,31 @@
             </q-item-section>
           </q-item>
         </div>
+
+        <q-toolbar-title> {{ title }} </q-toolbar-title>
+
+        <div class="q-pr-sm q-ma-none">
+          <q-btn
+            rounded
+            outline
+            label="Cadastro"
+            size="13px"
+            color="light-blue-3"
+            @click="abrirCadastroUsers = true"
+          />
+        </div>
+        <div class="q-pr-sm q-ma-none">
+          <q-btn
+            rounded
+            outline
+            label="Login"
+            size="13px"
+            color="light-blue-3"
+            @click="abrirLogin = true"
+          />
+        </div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawer"
-      show-if-above
-      bordered
-      :mini="mini"
-      elevated
-      content-class="background-color-drawer"
-      class="text-white"
-      :width="215"
-    >
-      <q-list>
-        <div>
-          <q-expansion-item
-            ref="menuInicio"
-            group="menuLateral"
-            class="esconder-seta-expansion-item"
-            hide-dropdown-icon
-            label="Início"
-            icon="home"
-            @click="setRouter('/', 'Início')"
-          >
-          </q-expansion-item>
-          <q-tooltip
-            v-if="mini"
-            anchor="center right"
-            self="center left"
-            content-style="font-size: 14px"
-          >
-            <strong>Início</strong>
-          </q-tooltip>
-        </div>
-        <hr
-          style="
-            border: 0;
-            border-top: 1px solid rgba(0, 0, 0, 0.12);
-            heigth: 1px;
-          "
-          class="q-ma-none"
-        />
-        <div>
-          <q-expansion-item
-            ref="menuCadastro"
-            group="menuLateral"
-            class="esconder-seta-expansion-item"
-            hide-dropdown-icon
-            label="Cadastro"
-            icon="settings"
-            @click="setRouter('/cadastroClientePage', 'Cadastro')"
-          >
-          </q-expansion-item>
-          <q-tooltip
-            v-if="mini"
-            anchor="center right"
-            self="center left"
-            content-style="font-size: 14px"
-          >
-            <strong>Cadastro</strong>
-          </q-tooltip>
-        </div>
-        <hr
-          style="
-            border: 0;
-            border-top: 1px solid rgba(0, 0, 0, 0.12);
-            heigth: 1px;
-          "
-          class="q-ma-none"
-        />
-        <!-- <div>
-          <q-expansion-item
-            ref="menupacotes"
-            group="menuLateral"
-            class="esconder-seta-expansion-item"
-            hide-dropdown-icon
-            label="Pacotes"
-            icon="flight_takeoff"
-            @click="setRouter('/cadastroPacotesPage', 'Cadastro de Pacotes')"
-          >
-          </q-expansion-item>
-          <q-tooltip
-            v-if="mini"
-            anchor="center right"
-            self="center left"
-            content-style="font-size: 14px"
-          >
-            <strong>Pacotes</strong>
-          </q-tooltip>
-        </div> -->
-        <hr
-          style="
-            border: 0;
-            border-top: 1px solid rgba(0, 0, 0, 0.12);
-            heigth: 1px;
-          "
-          class="q-ma-none"
-        />
-      </q-list>
-    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -170,6 +50,11 @@
       @confirmarLogin="confirmarLogin($event)"
       @fecharModal="abrirLogin = $event"
     />
+    <CadastroUsersModal
+      v-if="abrirCadastroUsers"
+      :abrirCadastroUsers="abrirCadastroUsers"
+      @closeModal="abrirCadastroUsers = $event"
+    />
   </q-layout>
 </template>
 
@@ -178,13 +63,15 @@ import { Loading } from 'quasar';
 import { Vue, Component } from 'vue-property-decorator';
 import Login from 'src/modals/Login.vue';
 import { notificarErro, notificarSucesso } from 'src/util/NotifyUtil';
+import CadastroUsersModal from 'src/components/users/CadastroUsersModal.vue';
 
-@Component({ components: { Login } })
+@Component({ components: { Login, CadastroUsersModal } })
 export default class MainLayout extends Vue {
   leftDrawer = true;
   mini = true;
   title = 'Início';
   abrirLogin = false;
+  abrirCadastroUsers = false;
 
   setRouter(path: string, tab: string): void {
     if (this.title !== tab) {
