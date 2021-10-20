@@ -10,8 +10,8 @@
             <q-separator color="black" />
             <q-card class="q-pa-sm scroll background-color-modal" style="max-height: 70vh">
                 <span class="q-pr-none q-pl-xs q-pt-none q-pb-xs texto-q-item"
-                    >Dados Pessoais | Cliente
-                    <q-toggle size="sm" v-model="user.employee">Funcionário</q-toggle>
+                    >Dados Pessoais | Funcionário
+                    <q-toggle size="sm" v-model="user.employee" />
                 </span>
                 <div class="row q-col-gutter-sm">
                     <div class="col-6 col-md-6">
@@ -99,7 +99,6 @@
                             @input="resetarErroCampo('email')"
                         />
                     </div>
-                    <!-- TODO toggle de employee -->
                     <div class="col-6 col-md-6">
                         <q-input
                             dense
@@ -119,11 +118,11 @@
                             outlined
                             hide-bottom-space
                             label="Confirme a senha"
-                            value="********"
+                            v-model="user.password_confirmation"
                             ref="cadastroConfirmaSenha"
-                            :error="formValidator.isError('confirmaSenha')"
-                            :error-message="formValidator.getError('confirmaSenha')"
-                            @input="resetarErroCampo('confirmaSenha')"
+                            :error="formValidator.isError('password_confirmation')"
+                            :error-message="formValidator.getError('password_confirmation')"
+                            @input="resetarErroCampo('password_confirmation')"
                         />
                     </div>
                 </div>

@@ -34,6 +34,8 @@ export default class CadastroUsersValidator {
         this.formValidator.validarCampo('', 'cpf', 11, true, types.string);
         this.formValidator.validarCampo('', 'date_birth', 0, true, types.string);
         this.formValidator.validarCampo('', 'email', 30, true, types.string);
+        this.formValidator.validarCampo('', 'password', 0, true, types.string);
+        this.formValidator.validarCampo('', 'password_confirmation', 0, true, types.string);
         this.formValidator.validarCampo('', 'cep', 8, true, types.string);
         this.formValidator.validarCampo('', 'id_country', 0, true, types.string);
         this.formValidator.validarCampo('', 'name_state', 40, true, types.string);
@@ -46,7 +48,30 @@ export default class CadastroUsersValidator {
         this.formValidator.validarCampo('', 'id_phone_type', 0, true, types.string);
         this.formValidator.validarCampo('', 'num_phone', 20, true, types.string);
 
-        // TODO validação de password
+        if (this.user && this.user.password) {
+            this.validatePassword();
+        }
+    }
+
+    validatePassword() {
+        if (this.user.password_confirmation) {
+            this.validatePasswordConfirmation(this.user.password, this.user.password_confirmation);
+        } else {
+            const msg = 'É preciso digitar a senha e confirmá-la.';
+            this.formValidator.addError('password', msg);
+            this.formValidator.addError('password_confirmation', msg);
+        }
+    }
+
+    validatePasswordConfirmation(password: string, passwordConfirmation: string) {
+        if (password === passwordConfirmation) {
+            return true;
+        } else {
+            const msg = 'As senhas digitadas não conferem.';
+            this.formValidator.addError('password', msg);
+            this.formValidator.addError('password_confirmation', msg);
+            return false;
+        }
     }
 
     isError(campo: string): boolean {

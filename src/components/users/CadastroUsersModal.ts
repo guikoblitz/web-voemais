@@ -63,7 +63,7 @@ export default class CadastroUsersModal extends Vue {
     async confirmar(): Promise<void> {
         try {
             if (this.formValidator.validateForm(this.user)) {
-                Loading.show({ message: 'Atualizando Usuário...' });
+                Loading.show({ message: 'Criando Usuário...' });
 
                 if (this.user.date_birth && typeof this.user.date_birth !== 'string') {
                     this.user.date_birth = this.handleBirthDate(this.user.date_birth);
@@ -78,48 +78,6 @@ export default class CadastroUsersModal extends Vue {
                 }
                 this.closeModal();
             }
-            // Loading.show({ message: 'Atualizando Usuário...' });
-
-            // if (this.user.date_birth && typeof this.user.date_birth !== 'string') {
-            //     this.user.date_birth = this.handleBirthDate(this.user.date_birth);
-            // }
-
-            // const returnCreateUser = await UserService.createUser(this.user);
-            // console.log(returnCreateUser);
-
-            // if (returnCreateUser) {
-            //     notificarSucesso('Usuário criado com sucesso!');
-            //     this.user = new User();
-            // }
-            // if (this.editPackage) {
-            //   Loading.show({ message: 'Atualizando Pacote de Viagem...' });
-
-            //   const returnUpdateTravelPackage = await TravelPackageService.updateTravelPackage(
-            //     this.travel_package
-            //   );
-            //   console.log(returnUpdateTravelPackage);
-
-            //   if (returnUpdateTravelPackage) {
-            //     notificarSucesso('Pacote de Viagem atualizado com sucesso!');
-            //     this.travel_package = new TravelPackage();
-            //   }
-            // } else {
-            //   Loading.show({ message: 'Inserindo Pacote de Viagem...' });
-
-            //   const returnInsertTravelPackage = await TravelPackageService.createTravelPackage(
-            //     this.travel_package
-            //   );
-            //   console.log(returnInsertTravelPackage);
-
-            //   if (returnInsertTravelPackage) {
-            //     notificarSucesso('Pacote de Viagem inserido com sucesso!');
-            //     this.travel_package.id_travel_pack =
-            //       returnInsertTravelPackage.id_travel_pack;
-            //     this.travel_package = new TravelPackage();
-            //   }
-            // }
-            // this.closeModal();
-            // }
         } catch (e) {
             console.log(e);
             notificarErro('Houve um erro ao executar esta ação.');

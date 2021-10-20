@@ -1,43 +1,45 @@
 export class User {
-  id_user: string;
+    id_user: string;
 
-  cpf: string;
+    cpf: string;
 
-  name: string;
+    name: string;
 
-  last_name: string;
+    last_name: string;
 
-  email: string;
+    email: string;
 
-  employee: boolean;
+    employee: boolean;
 
-  date_birth: Date | string;
+    date_birth: Date | string;
 
-  password: string;
+    password: string;
 
-  id_country: string;
+    password_confirmation?: string;
 
-  name_state: string;
+    id_country: string;
 
-  name_city: string;
+    name_state: string;
 
-  name_neighborhood: string;
+    name_city: string;
 
-  id_street: string;
+    name_neighborhood: string;
 
-  name_address: string;
+    id_street: string;
 
-  num_address: string;
+    name_address: string;
 
-  complement: string;
+    num_address: string;
 
-  cep: string;
+    complement: string;
 
-  id_phone_type: string;
+    cep: string;
 
-  num_phone: string;
+    id_phone_type: string;
 
-  created_at: Date;
+    num_phone: string;
 
-  updated_at: Date;
+    created_at: Date;
+
+    updated_at: Date;
 }
