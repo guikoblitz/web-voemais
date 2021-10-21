@@ -62,7 +62,6 @@ export default class Login extends Vue {
     confirmarLogin(isLogado: boolean): boolean {
         return isLogado;
     }
-
     decodeToken(token: string): string {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -83,11 +82,10 @@ export default class Login extends Vue {
         try {
             Loading.show({ message: 'Verificando credenciais...' });
             const loginToken = await LoginService.provideLogin(this.login);
-            console.log(loginToken);
             if (loginToken) {
                 const loggedUserId = this.decodeToken(loginToken);
                 const loggedUser = await UserService.getUserById(loggedUserId);
-                console.log(loggedUser);
+                this.$store.dispatch('geral/setLoggedUser', loggedUser);
                 this.confirmarLogin(true);
                 this.fecharModal();
             } else {
