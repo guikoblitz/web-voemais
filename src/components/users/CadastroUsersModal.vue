@@ -75,6 +75,7 @@
                                         <q-date
                                             minimal
                                             v-model="user.date_birth"
+                                            :options="validateDateBirthOpt"
                                             @input="
                                                 hide('qDateDataNascimento');
                                                 atribuirData(user.date_birth);
@@ -106,11 +107,21 @@
                             hide-bottom-space
                             label="Senha"
                             v-model="user.password"
+                            autocomplete="new-password"
                             ref="cadastroSenha"
+                            :type="show_password ? 'text' : 'password'"
                             :error="formValidator.isError('password')"
                             :error-message="formValidator.getError('password')"
                             @input="resetarErroCampo('password')"
-                        />
+                        >
+                            <template v-slot:append>
+                                <q-icon
+                                    :name="show_password ? 'visibility' : 'visibility_off'"
+                                    class="cursor-pointer"
+                                    @click="show_password = !show_password"
+                                />
+                            </template>
+                        </q-input>
                     </div>
                     <div class="col-6 col-md-6">
                         <q-input
@@ -120,10 +131,19 @@
                             label="Confirme a senha"
                             v-model="user.password_confirmation"
                             ref="cadastroConfirmaSenha"
+                            :type="show_password ? 'text' : 'password'"
                             :error="formValidator.isError('password_confirmation')"
                             :error-message="formValidator.getError('password_confirmation')"
                             @input="resetarErroCampo('password_confirmation')"
-                        />
+                        >
+                            <template v-slot:append>
+                                <q-icon
+                                    :name="show_password ? 'visibility' : 'visibility_off'"
+                                    class="cursor-pointer"
+                                    @click="show_password = !show_password"
+                                />
+                            </template>
+                        </q-input>
                     </div>
                 </div>
                 <hr style="border: 0; border-top: 1px solid #000000; heigth: 1px" />
@@ -320,7 +340,7 @@
             <q-card-actions class="q-pb-sm q-pr-sm q-pt-sm " style="display: flex; justify-content: space-between">
                 <div>
                     <div class="q-pr-sm">
-                        <q-btn icon="close" class="q-px-xs" color="yellow-9" text-color="white" label="Limpar" />
+                        <q-btn icon="close" class="q-px-xs" color="yellow-9" text-color="white" label="Limpar" @click="clearRegister()" />
                     </div>
                 </div>
                 <div class="row justify-end">

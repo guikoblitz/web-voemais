@@ -19,6 +19,7 @@ export default class CadastroUsersModal extends Vue {
     user = new User();
     modal_title = 'Cadastro de Usuário';
     visualizeRegister = false;
+    show_password = false;
     countries: Country[] = [];
     street_types: StreetType[] = [];
     phone_types: PhoneType[] = [];
@@ -58,6 +59,16 @@ export default class CadastroUsersModal extends Vue {
 
     handleBirthDate(date_birth: Date): string {
         return moment(date_birth).format('DD/MM/YYYY');
+    }
+
+    validateDateBirthOpt(birthDate: Date): boolean {
+        const dataCalendario = moment(birthDate).format('YYYY/MM/DD');
+        return dataCalendario <= moment().format('YYYY/MM/DD');
+    }
+
+    clearRegister(): void {
+        this.user = new User();
+        this.user.employee = false;
     }
 
     async confirmar(): Promise<void> {
