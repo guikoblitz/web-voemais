@@ -12,11 +12,27 @@
 
                 <q-toolbar-title> {{ title }} </q-toolbar-title>
 
-                <div class="q-pr-sm q-ma-none">
-                    <q-btn rounded outline label="Cadastro" size="13px" color="light-blue-3" @click="abrirCadastroUsers = true" />
+                <div v-if="!validateLoggedUser() || validateEmployee()" class="q-pr-sm q-ma-none">
+                    <q-btn
+                        rounded
+                        outline
+                        :label="validateEmployee() ? 'Cadastrar' : 'Cadastro'"
+                        size="13px"
+                        color="light-blue-3"
+                        @click="abrirCadastroUsers = true"
+                    />
                 </div>
                 <div class="q-pr-sm q-ma-none">
-                    <q-btn rounded outline label="Login" size="13px" color="light-blue-3" @click="abrirLogin = true" />
+                    <q-btn
+                        v-if="!validateLoggedUser()"
+                        rounded
+                        outline
+                        label="Login"
+                        size="13px"
+                        color="light-blue-3"
+                        @click="abrirLogin = true"
+                    />
+                    <q-btn v-else rounded outline label="Logout" size="13px" color="light-blue-3" @click="logout()" />
                 </div>
             </q-toolbar>
         </q-header>
@@ -56,6 +72,20 @@ export default class MainLayout extends Vue {
         }
     }
 
+    validateLoggedUser() {
+        if (this.$store.state.geral.usuarioLogado) {
+            return true;
+        }
+        return false;
+    }
+
+    validateEmployee() {
+        if (this.validateLoggedUser() && this.$store.state.geral.usuarioLogado.employee) {
+            return true;
+        }
+        return false;
+    }
+
     confirmarLogin(retorno: boolean): void {
         if (retorno) {
             if (this.title !== 'Início') {
@@ -71,6 +101,10 @@ export default class MainLayout extends Vue {
         } else {
             notificarErro('Houve um erro ao efetuar login.');
         }
+    }
+
+    logout() {
+        this.$store.dispatch('geral/setLogout', undefined);
     }
 }
 </script>

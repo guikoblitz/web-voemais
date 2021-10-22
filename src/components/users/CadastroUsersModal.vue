@@ -9,7 +9,7 @@
             </q-card-section>
             <q-separator color="black" />
             <q-card class="q-pa-sm scroll background-color-modal" style="max-height: 70vh">
-                <span class="q-pr-none q-pl-xs q-pt-none q-pb-xs texto-q-item"
+                <span v-if="validateEmployee()" class="q-pr-none q-pl-xs q-pt-none q-pb-xs texto-q-item"
                     >Dados Pessoais | Funcionário
                     <q-toggle size="sm" v-model="user.employee" />
                 </span>

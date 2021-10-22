@@ -66,6 +66,20 @@ export default class CadastroUsersModal extends Vue {
         return dataCalendario <= moment().format('YYYY/MM/DD');
     }
 
+    validateLoggedUser() {
+        if (this.$store.state.geral.usuarioLogado) {
+            return true;
+        }
+        return false;
+    }
+
+    validateEmployee() {
+        if (this.validateLoggedUser() && this.$store.state.geral.usuarioLogado.employee) {
+            return true;
+        }
+        return false;
+    }
+
     clearRegister(): void {
         this.user = new User();
         this.user.employee = false;
