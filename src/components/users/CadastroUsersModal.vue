@@ -98,6 +98,7 @@
                             :error="formValidator.isError('email')"
                             :error-message="formValidator.getError('email')"
                             @input="resetarErroCampo('email')"
+                            @change="checkDuplicateUser(user.email)"
                         />
                     </div>
                     <div class="col-6 col-md-6">

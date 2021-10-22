@@ -11,6 +11,15 @@ export default {
         }
     },
 
+    async getUsers() {
+        try {
+            const response = await Api.get(`/list-users`);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
     async createUser(user: User): Promise<User> {
         try {
             const response = await Api.post('/users', user);
