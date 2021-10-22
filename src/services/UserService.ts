@@ -13,7 +13,7 @@ export default {
 
     async getUsers() {
         try {
-            const response = await Api.get(`/list-users`);
+            const response = await Api.get('/list-users');
             return response.data;
         } catch (e) {
             console.log(e);
