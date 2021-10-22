@@ -1,3 +1,4 @@
 export default {
-    usuarioLogado: undefined
+    usuarioLogado: undefined,
+    tokenUsuarioLogado: undefined
 };

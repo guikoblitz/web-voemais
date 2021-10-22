@@ -105,6 +105,7 @@ export default class MainLayout extends Vue {
 
     logout() {
         this.$store.dispatch('geral/setLogout', undefined);
+        this.$store.dispatch('geral/clearLoggedUserToken', undefined);
     }
 }
 </script>

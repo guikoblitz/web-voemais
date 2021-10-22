@@ -11,3 +11,11 @@ export function setLogout(state, payload) {
         notificarSucesso('Logout efetuado com sucesso!');
     }
 }
+
+export function setLoggedUserToken(state, payload) {
+    state.tokenUsuarioLogado = lodash.cloneDeep(payload);
+}
+
+export function clearLoggedUserToken(state, payload) {
+    state.tokenUsuarioLogado = payload;
+}
