@@ -10,7 +10,15 @@
             </q-card-section>
             <q-separator color="black" />
             <q-card-section>
-                <q-input dense outlined hide-bottom-space label="Login" v-model="login.email" ref="login" />
+                <q-input
+                    dense
+                    outlined
+                    hide-bottom-space
+                    label="Login"
+                    v-model="login.email"
+                    ref="login"
+                    @keyup.enter="$refs.password.focus()"
+                />
                 <q-input
                     class="q-pt-sm"
                     type="password"
@@ -20,6 +28,7 @@
                     hide-bottom-space
                     label="Senha"
                     v-model="login.password"
+                    @keyup.enter="confirmar()"
                     ref="password"
                 />
             </q-card-section>
@@ -86,6 +95,7 @@ export default class Login extends Vue {
                 const loggedUserId = this.decodeToken(loginToken);
                 const loggedUser = await UserService.getUserById(loggedUserId);
                 this.$store.dispatch('geral/setLoggedUser', loggedUser);
+                this.$store.dispatch('geral/setLoggedUserToken', loginToken);
                 this.confirmarLogin(true);
                 this.fecharModal();
             } else {
