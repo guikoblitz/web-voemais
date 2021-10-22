@@ -326,7 +326,7 @@
                             v-model="user.num_phone"
                             placeholder="(00)00000-0000"
                             unmasked-value
-                            mask="(##)#####-####"
+                            :mask="mascaraTelefoneDdd(user.num_phone)"
                             maxlength="14"
                             onkeypress="return event.charCode >= 46 && event.charCode <= 57"
                             ref="cadastroTelefone"

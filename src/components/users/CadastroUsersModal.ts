@@ -1,6 +1,6 @@
 import { Loading, QDate } from 'quasar';
 import { formatarDataQDate, getDataBD, getDataFormatada } from 'src/util/DataUtil';
-import { mascaraCpfCnpj } from 'src/util/MaskUtil';
+import { mascaraCpfCnpj, mascaraTelefoneDdd } from 'src/util/MaskUtil';
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
 import { User } from 'src/entities/User';
 import { notificarErro, notificarSucesso } from 'src/util/NotifyUtil';
@@ -33,6 +33,7 @@ export default class CadastroUsersModal extends Vue {
         this['formatarData'] = formatarDataQDate;
         this['getDataBD'] = getDataBD;
         this['mascaraCpfCnpj'] = mascaraCpfCnpj;
+        this['mascaraTelefoneDdd'] = mascaraTelefoneDdd;
 
         if (!this.user.id_user) this.user.employee = false;
     }
