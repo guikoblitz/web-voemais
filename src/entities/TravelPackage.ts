@@ -1,27 +1,36 @@
+import { Country } from './Country';
+import { TravelPackageType } from './TravelPackageType';
+
 export class TravelPackage {
-  id_travel_pack: string;
+    id_travel_pack: string;
 
-  id_travel_package_type: string;
+    id_travel_package_type: string;
 
-  id_country_origin: string;
+    idTravelPackageType?: TravelPackageType;
 
-  id_country_destination: string;
+    id_country_origin: string;
 
-  name_travel_package: string;
+    idCountryOrigin?: Country;
 
-  description: string;
+    idCountryDestination?: Country;
 
-  image: string;
+    id_country_destination: string;
 
-  promotion: boolean;
+    name_travel_package: string;
 
-  start_date: Date;
+    description: string;
 
-  end_date?: Date;
+    image: string;
 
-  unit_price?: number;
+    promotion: boolean;
 
-  created_at: Date;
+    start_date: Date;
 
-  updated_at: Date;
+    end_date?: Date;
+
+    unit_price?: number;
+
+    created_at: Date;
+
+    updated_at: Date;
 }
