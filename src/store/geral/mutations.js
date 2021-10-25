@@ -19,3 +19,7 @@ export function setLoggedUserToken(state, payload) {
 export function clearLoggedUserToken(state, payload) {
     state.tokenUsuarioLogado = payload;
 }
+
+export function setSystemTitle(state, payload) {
+    state.systemTitle = payload;
+}

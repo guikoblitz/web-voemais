@@ -3,15 +3,25 @@
         <q-header elevated>
             <q-toolbar class="q-pl-none">
                 <div class="q-pa-none q-ma-none">
-                    <q-item class="text-white" style="justify-content: center" dense clickable @click="setRouter('/', 'Início')">
+                    <q-item class="text-white" style="justify-content: center" dense clickable @click="setRouter('/')">
                         <q-item-section avatar class="q-pa-none">
                             <q-img src="logo_raw.png" />
                         </q-item-section>
                     </q-item>
                 </div>
 
-                <q-toolbar-title> {{ title }} </q-toolbar-title>
+                <q-toolbar-title> {{ getSystemTitle() }} </q-toolbar-title>
 
+                <div class="q-pr-sm q-ma-none">
+                    <q-btn
+                        rounded
+                        outline
+                        label="Gerenciar Pacotes"
+                        size="13px"
+                        color="light-blue-3"
+                        @click="setRouter('cadastroPacotesGerenciador')"
+                    />
+                </div>
                 <div v-if="!validateLoggedUser() || validateEmployee()" class="q-pr-sm q-ma-none">
                     <q-btn
                         rounded
@@ -55,21 +65,15 @@ import CadastroUsersModal from 'src/components/users/CadastroUsersModal.vue';
 @Component({ components: { Login, CadastroUsersModal } })
 export default class MainLayout extends Vue {
     leftDrawer = true;
-    mini = true;
-    title = 'Início';
     abrirLogin = false;
     abrirCadastroUsers = false;
 
-    setRouter(path: string, tab: string): void {
-        if (this.title !== tab) {
-            Loading.show({ message: `Carregando ${tab}...` });
-            this.title = tab;
-            this.mini = true;
-            this.$router.push(path).catch(() => {});
-            Loading.hide();
-        } else {
-            this.mini = !this.mini;
-        }
+    getSystemTitle(): string {
+        return this.$store.state.geral.systemTitle;
+    }
+
+    setRouter(path: string): void {
+        this.$router.push(path).catch(() => {});
     }
 
     validateLoggedUser() {
@@ -88,16 +92,10 @@ export default class MainLayout extends Vue {
 
     confirmarLogin(retorno: boolean): void {
         if (retorno) {
-            if (this.title !== 'Início') {
-                Loading.show({ message: 'Carregando Início...' });
-                this.title = 'Início';
-                this.mini = true;
-                this.$router.push('/').catch(() => {});
-                Loading.hide();
-                notificarSucesso('Login efetuado com sucesso.');
-            } else {
-                notificarSucesso('Login efetuado com sucesso.');
-            }
+            Loading.show({ message: 'Carregando Início...' });
+            this.$router.push('/').catch(() => {});
+            Loading.hide();
+            notificarSucesso('Login efetuado com sucesso.');
         } else {
             notificarErro('Houve um erro ao efetuar login.');
         }

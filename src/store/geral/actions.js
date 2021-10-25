@@ -13,3 +13,7 @@ export function setLoggedUserToken({ commit }, token) {
 export function clearLoggedUserToken({ commit }, token) {
     commit('clearLoggedUserToken', token);
 }
+
+export function setSystemTitle({ commit }, token) {
+    commit('setSystemTitle', token);
+}

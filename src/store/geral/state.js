@@ -1,4 +1,5 @@
 export default {
     usuarioLogado: undefined,
-    tokenUsuarioLogado: undefined
+    tokenUsuarioLogado: undefined,
+    systemTitle: undefined
 };

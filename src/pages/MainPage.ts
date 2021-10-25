@@ -23,6 +23,7 @@ export default class MainPage extends Vue {
     }
 
     async mounted(): Promise<void> {
+        this.$store.dispatch('geral/setSystemTitle', 'Início');
         await this.callPackageUpdates(true);
     }
 
