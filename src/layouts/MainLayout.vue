@@ -12,7 +12,7 @@
 
                 <q-toolbar-title> {{ getSystemTitle() }} </q-toolbar-title>
 
-                <div class="q-pr-sm q-ma-none">
+                <div v-if="validateEmployee()" class="q-pr-sm q-ma-none">
                     <q-btn
                         rounded
                         outline
