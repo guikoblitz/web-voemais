@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import geral from './geral';
+import createPersistedState from 'vuex-persistedstate';
 
 // import example from './module-example'
 
@@ -20,6 +21,7 @@ export default function(/* { ssrContext } */) {
         modules: {
             geral
         },
+        plugins: [createPersistedState()],
 
         // enable strict mode (adds overhead!)
         // for dev mode and --debug builds only
