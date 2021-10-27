@@ -75,7 +75,7 @@
                             hide-bottom-space
                             label="Data Inicial"
                             readonly
-                            :value="getDataHoraFormatada(travel_package.start_date)"
+                            :value="getDataFormatada(travel_package.start_date)"
                             ref="pacoteDataInicial"
                             :error="formValidator.isError('start_date')"
                             :error-message="formValidator.getError('start_date')"
@@ -104,22 +104,13 @@
                                             v-if="!isDataInicialSelecionada"
                                             v-model="travel_package.start_date"
                                             mask="YYYY-MM-DD HH:mm"
-                                            @input="isDataInicialSelecionada = true"
-                                            :options="validarOptionsDataInicial"
-                                        />
-                                        <q-time
-                                            v-if="isDataInicialSelecionada"
-                                            mask="YYYY-MM-DD HH:mm"
-                                            v-model="travel_package.start_date"
-                                            format24h
-                                            :options="validarOptionsHoraInicial"
                                             @input="
-                                                isDataInicialSelecionada = false;
-                                                isDataInicialFinalizada = true;
                                                 handleDates(travel_package.start_date, 'dataInicial');
+                                                isDataInicialFinalizada = true;
                                                 hide('qDatePacoteDataInicial');
                                                 resetarErroCampo('start_date');
                                             "
+                                            :options="validarOptionsDataInicial"
                                         />
                                     </q-popup-proxy>
                                 </q-icon>
@@ -143,7 +134,7 @@
                             label="Data Final"
                             readonly
                             :disable="!isDataInicialFinalizada && !visualizePackage"
-                            :value="getDataHoraFormatada(travel_package.end_date)"
+                            :value="getDataFormatada(travel_package.end_date)"
                             ref="pacoteDataFinal"
                             :error="formValidator.isError('end_date')"
                             :error-message="formValidator.getError('end_date')"
@@ -164,24 +155,16 @@
                                 <q-icon v-if="!visualizePackage" name="event" class="cursor-pointer">
                                     <q-popup-proxy transition-show="scale" transition-hide="scale" ref="qDatePacoteDataFinal">
                                         <q-date
-                                            v-if="!isDataFinalSelecionada"
+                                            v-if="!isDataInicialSelecionada"
                                             v-model="travel_package.end_date"
                                             mask="YYYY-MM-DD HH:mm"
-                                            @input="isDataFinalSelecionada = true"
-                                            :options="validarOptionsDataFinal"
-                                        />
-                                        <q-time
-                                            v-if="isDataFinalSelecionada"
-                                            mask="YYYY-MM-DD HH:mm"
-                                            v-model="travel_package.end_date"
-                                            format24h
-                                            :options="validarOptionsHoraFinal"
                                             @input="
                                                 isDataFinalSelecionada = false;
                                                 handleDates(travel_package.end_date, 'dataFinal');
                                                 hide('qDatePacoteDataFinal');
                                                 resetarErroCampo('end_date');
                                             "
+                                            :options="validarOptionsDataFinal"
                                         />
                                     </q-popup-proxy>
                                 </q-icon>

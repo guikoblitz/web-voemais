@@ -204,6 +204,7 @@ export default class CadastroPacotesModal extends Vue {
             this.travel_package.start_date = new Date(data);
         } else {
             this.travel_package.end_date = new Date(data);
+            this.travel_package.end_date.setHours(23, 59, 59);
         }
     }
 

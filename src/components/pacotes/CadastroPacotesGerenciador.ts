@@ -34,20 +34,61 @@ export default class CadastroPacotesGerenciador extends Vue {
     }
 
     async mounted(): Promise<void> {
-        this.$store.dispatch('geral/setSystemTitle', 'Gerenciador de Pacotes');
-        await this.callPackageUpdates(true);
-        console.log(this.travelPackagesList);
+        if (this.validateLoggedUser() && this.validateEmployee()) {
+            this.$store.dispatch('geral/setSystemTitle', 'Gerenciador de Pacotes');
+            await this.callPackageUpdates(true);
+        } else {
+            this.setRouter('/');
+        }
+    }
+
+    sortByTravelPackageName(): void {
+        this.travelPackagesList.sort((a: TravelPackage, b: TravelPackage) => {
+            if (a.name_travel_package > b.name_travel_package) {
+                return 1;
+            } else if (a.name_travel_package < b.name_travel_package) {
+                return -1;
+            }
+            return 0;
+        });
+    }
+
+    setRouter(path: string): void {
+        this.$router.push(path).catch(() => {});
+    }
+
+    validateLoggedUser() {
+        if (this.$store.state.geral.usuarioLogado) {
+            return true;
+        }
+        return false;
+    }
+
+    validateEmployee() {
+        if (this.validateLoggedUser() && this.$store.state.geral.usuarioLogado.employee) {
+            return true;
+        }
+        return false;
     }
 
     async callPackageUpdates(callUpdates: boolean): Promise<void> {
         if (callUpdates) {
             Loading.show({ message: 'Carregando Pacotes...' });
             this.travelPackagesList = await TravelPackageService.getTravelPackages();
+            this.sortByTravelPackageName();
 
             const calculoPagesNumber = Math.ceil(this.travelPackagesList.length / this.pagination.rowsPerPage);
             this.pagesNumber = calculoPagesNumber > 0 ? calculoPagesNumber : 1;
             Loading.hide();
         }
+    }
+
+    createTravelPackage(): void {
+        this.editPackage = false;
+        this.visualizePackage = false;
+        this.modal_title = 'Criar Pacote de Viagem';
+        this.selected_travel_package = new TravelPackage();
+        this.abrirCadastroPacotes = true;
     }
 
     editTravelPackage(travelPackage: TravelPackage): void {

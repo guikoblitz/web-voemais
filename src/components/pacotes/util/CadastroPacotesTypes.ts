@@ -3,6 +3,13 @@ import { TravelPackage } from 'src/entities/TravelPackage';
 
 export const travelPackagesColumnsInterface: QTable['columns'] = [
     {
+        name: 'index',
+        label: '',
+        align: 'left',
+        headerStyle: 'min-width: 30px',
+        field: () => ''
+    },
+    {
         name: 'name',
         label: 'NOME',
         align: 'left',
