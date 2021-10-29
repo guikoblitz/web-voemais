@@ -12,6 +12,12 @@
 
                 <q-toolbar-title> {{ getSystemTitle() }} </q-toolbar-title>
 
+                <div v-if="validateLoggedUser()" class="q-pr-sm q-ma-none">
+                    <span class="row" style="color: #81d4fa">
+                        <div class="q-pr-xs">Bem vindo(a),</div>
+                        <div style="font-weight: 600">{{ `${getLoggedUserName()}` }}</div></span
+                    >
+                </div>
                 <div v-if="validateEmployee()" class="q-pr-sm q-ma-none">
                     <q-btn
                         rounded
@@ -22,15 +28,8 @@
                         @click="setRouter('cadastroPacotesGerenciador')"
                     />
                 </div>
-                <div v-if="!validateLoggedUser() || validateEmployee()" class="q-pr-sm q-ma-none">
-                    <q-btn
-                        rounded
-                        outline
-                        :label="validateEmployee() ? 'Cadastrar' : 'Cadastro'"
-                        size="13px"
-                        color="light-blue-3"
-                        @click="abrirCadastroUsers = true"
-                    />
+                <div v-if="!validateLoggedUser()" class="q-pr-sm q-ma-none">
+                    <q-btn rounded outline label="Cadastro" size="13px" color="light-blue-3" @click="abrirCadastroUsers = true" />
                 </div>
                 <div class="q-pr-sm q-ma-none">
                     <q-btn
@@ -74,6 +73,10 @@ export default class MainLayout extends Vue {
 
     setRouter(path: string): void {
         this.$router.push(path).catch(() => {});
+    }
+
+    getLoggedUserName() {
+        return this.$store.state.geral.usuarioLogado.name;
     }
 
     validateLoggedUser() {
