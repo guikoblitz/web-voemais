@@ -1,7 +1,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import TravelPackageService from 'src/services/TravelPackageService';
 import { TravelPackage } from 'src/entities/TravelPackage';
-import { Dialog, Loading, QCarouselSlide } from 'quasar';
+import { Dialog, Loading } from 'quasar';
 import { notificarErro, notificarSucesso } from 'src/util/NotifyUtil';
 import CadastroPacotesModal from 'src/components/pacotes/CadastroPacotesModal.vue';
 import lodash from 'lodash';
