@@ -1,8 +1,4 @@
 /* app global css */
-.body--light .q-field__control {
-    background-color: #ffffff;
-}
-
 .q-drawer--left.q-drawer--bordered {
     border-right: none;
 }

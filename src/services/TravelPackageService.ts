@@ -24,6 +24,12 @@ export default {
     async getTravelPackages() {
         try {
             const response = await Api.get('/list-travel-packages');
+            if (response.data && response.data.length > 0) {
+                for (let index = 0; index < response.data.length; index++) {
+                    const travelPackage = response.data[index] as TravelPackage;
+                    if (travelPackage.unit_price) travelPackage.unit_price = Number(travelPackage.unit_price);
+                }
+            }
             return response.data;
         } catch (error) {
             return console.log(error);

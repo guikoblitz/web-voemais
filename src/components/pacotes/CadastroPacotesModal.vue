@@ -18,7 +18,7 @@
                             style="height: 100%"
                         />
                     </div>
-                    <div class="col-6 col-md-6">
+                    <div class="col-6" :class="visualizePackage ? 'col-md-12' : 'col-md-6'">
                         <q-input
                             dense
                             outlined
@@ -48,7 +48,7 @@
                             </template>
                         </q-input>
                     </div>
-                    <div class="col-6 col-md-6">
+                    <div v-show="!visualizePackage" class="col-6 col-md-6">
                         <q-input
                             dense
                             readonly
@@ -237,7 +237,7 @@
                             @input="resetarErroCampo('id_travel_package_type')"
                         />
                     </div>
-                    <div class="col-3 col-md-3">
+                    <div class="col-3" :class="visualizePackage ? 'col-md-6' : 'col-md-3'">
                         <q-input
                             v-if="visualizePackage"
                             dense
@@ -258,8 +258,8 @@
                             :parent="this"
                         />
                     </div>
-                    <div class="col-3 col-md-3 text-center">
-                        <q-toggle :disable="visualizePackage" v-model="travel_package.promotion" ref="pacotePromocao">Promoção</q-toggle>
+                    <div v-show="!visualizePackage" class="col-3 col-md-3 text-center">
+                        <q-toggle v-model="travel_package.promotion" ref="pacotePromocao">Promoção</q-toggle>
                     </div>
                     <div class="col-12 col-md-12">
                         <q-input
