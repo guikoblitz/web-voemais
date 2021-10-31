@@ -37,7 +37,15 @@
         </div>
         <q-separator color="black" />
         <div class="q-py-sm">
-            <span class="q-pa-none texto-q-item dark-blue ">ENCONTRE SUA PRÓXIMA VIAGEM</span>
+            <div class="row">
+                <div class="col-6 col-md 6">
+                    <span class=" q-pa-none texto-q-item dark-blue">ENCONTRE SUA PRÓXIMA VIAGEM</span>
+                </div>
+                <div v-if="filterOn" class="col-6 col-md 6 position-filter">
+                    <span class="q-pa-none texto-q-item dark-blue">LIMPAR FILTRO</span>
+                    <q-icon class="q-pl-xs" size="xs" name="cancel" color="negative" style="cursor: pointer" @click="setDefaultFilter()" />
+                </div>
+            </div>
             <div class="row q-col-gutter-sm">
                 <div class="col-6 col-md-5">
                     <div class="row">
@@ -53,6 +61,7 @@
                             option-label="travel_package_type"
                             option-value="id_travel_package_type"
                             v-model="filter.id_travel_package_type"
+                            @input="$forceUpdate()"
                             emit-value
                             map-options
                             class="q-pr-xs"
@@ -70,6 +79,7 @@
                             option-label="name_country"
                             option-value="id_country"
                             v-model="filter.id_country_origin"
+                            @input="$forceUpdate()"
                             emit-value
                             map-options
                             class="q-px-xs"
@@ -87,6 +97,7 @@
                             option-label="name_country"
                             option-value="id_country"
                             v-model="filter.id_country_destination"
+                            @input="$forceUpdate()"
                             emit-value
                             map-options
                             class="q-pl-xs"
@@ -188,8 +199,14 @@
             </div>
         </div>
         <q-separator color="black" />
-        <div class="row q-col-gutter-sm q-pt-sm">
-            <div v-for="travelPackage in travel_packages" :key="travelPackage.id_travel_pack" class="col-6">
+        <div class="q-pt-sm">
+            <span v-if="filtered_travel_packages.length > 1" class=" q-pa-none texto-q-item dark-blue "
+                >{{ filtered_travel_packages.length }} PACOTES DISPONÍVEIS</span
+            >
+            <span v-else class=" q-pa-none texto-q-item dark-blue ">{{ filtered_travel_packages.length }} PACOTE DISPONÍVEL</span>
+        </div>
+        <div class="row q-col-gutter-sm">
+            <div v-for="travelPackage in filtered_travel_packages" :key="travelPackage.id_travel_pack" class="col-6">
                 <div>
                     <q-img
                         :src="getImgUrl(travelPackage.image)"
@@ -198,6 +215,13 @@
                         img-class="quadros-promocionais"
                         :ratio="16 / 9"
                     >
+                        <div v-if="travelPackage.promotion" class="absolute-top-right row" style="background: none !important">
+                            <q-icon size="xs" name="star" color="yellow">
+                                <q-tooltip anchor="top middle" content-style="font-size: 12px" self="center left" :offset="[10, 10]">
+                                    <strong>Aproveite! Pacote Promocional!</strong>
+                                </q-tooltip>
+                            </q-icon>
+                        </div>
                         <div
                             class="absolute-bottom text-subtitle1 text-center image-subtitles"
                             @click="visualizeTravelPackage(travelPackage)"
@@ -264,5 +288,11 @@
     min-height: min-content;
     font-size: 18px;
     font-weight: 700;
+}
+
+.position-filter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 </style>

@@ -17,12 +17,14 @@ import { TravelPackageFilter } from 'src/entities/TravelPackageFilter';
 export default class MainPage extends Vue {
     travel_packages: TravelPackage[] = [];
     promotional_travel_packages: TravelPackage[] = [];
+    filtered_travel_packages: TravelPackage[] = [];
     selected_travel_package = new TravelPackage();
     filter = new TravelPackageFilter();
     countries: Country[] = [];
     travel_package_types: TravelPackageType[] = [];
     slide = 1;
     modal_title = '';
+    filterOn = false;
     abrirCadastroPacotes = false;
     editPackage = false;
     visualizePackage = false;
@@ -45,13 +47,42 @@ export default class MainPage extends Vue {
     }
 
     async mounted(): Promise<void> {
-        this.$store.dispatch('geral/setSystemTitle', 'Início');
-        this.travel_package_types = await TravelPackageTypesService.getTravelPackagesTypes();
-        this.countries = await CountryService.getCountries();
+        this.$store.dispatch('geral/setSystemTitle', 'Voe+');
+        await this.getTravelPackageTypes();
+        await this.getCountries();
         await this.callPackageUpdates(true);
         this.promotionTravelPackages();
         this.defineMinMaxTravelPackageValues();
+        this.setDefaultFilter();
+        this.filtered_travel_packages = lodash.cloneDeep(this.travel_packages);
         this.$forceUpdate();
+    }
+
+    async getTravelPackageTypes() {
+        this.travel_package_types = [];
+        this.travel_package_types.push({ id_travel_package_type: 'Todos', travel_package_type: 'Todos' } as TravelPackageType);
+        const travelPackageTypes = await TravelPackageTypesService.getTravelPackagesTypes();
+        travelPackageTypes.forEach((tpt: TravelPackageType) => this.travel_package_types.push(tpt));
+    }
+
+    async getCountries() {
+        this.countries = [];
+        this.countries.push({ id_country: 'Todos', name_country: 'Todos' } as Country);
+        const countries = await CountryService.getCountries();
+        countries.forEach((country: Country) => this.countries.push(country));
+    }
+
+    setDefaultFilter() {
+        this.filter = new TravelPackageFilter();
+        this.filter.id_country_destination = this.countries[0].id_country;
+        this.filter.id_country_origin = this.countries[0].id_country;
+        this.filter.id_travel_package_type = this.travel_package_types[0].id_travel_package_type;
+        this.filter.min_unit_price = this.min;
+        this.filter.max_unit_price = this.max;
+        this.travelPackageValues.min = this.min;
+        this.travelPackageValues.max = this.max;
+
+        this.filterOn = false;
     }
 
     getMinTravelPackageValue() {
@@ -76,7 +107,46 @@ export default class MainPage extends Vue {
         this.filter.min_unit_price = this.travelPackageValues.min;
         this.filter.max_unit_price = this.travelPackageValues.max;
 
-        console.log(this.filter);
+        Loading.show({ message: 'Filtrando Pacotes de Viagem...' });
+        setTimeout(() => {
+            const filtered_list = this.travel_packages.filter(tp => {
+                let validated = true;
+                for (const key in this.filter) {
+                    if (key === 'min_unit_price') {
+                        if (tp.unit_price && this.filter[key] <= tp.unit_price) {
+                            validated = true;
+                        } else {
+                            return false;
+                        }
+                    } else if (key === 'max_unit_price') {
+                        if (tp.unit_price && this.filter[key] >= tp.unit_price) {
+                            validated = true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        if (this.filter[key] !== 'Todos') {
+                            if (tp[key] === this.filter[key]) {
+                                validated = true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                if (validated) {
+                    return true;
+                }
+                return false;
+            });
+            if (filtered_list.length > 0) {
+                this.filtered_travel_packages = lodash.cloneDeep(filtered_list);
+                this.filterOn = true;
+            } else {
+                notificarErro('Nenhum Pacote de Viagem encontrado para o Filtro selecionado.');
+            }
+            Loading.hide();
+        }, 1000);
     }
 
     promotionTravelPackages() {
