@@ -11,7 +11,7 @@
                 hide-bottom
                 :rows-per-page-options="[0]"
                 class="scroll"
-                style="height: 80vh"
+                style="max-height: 80vh"
             >
                 <template v-slot:body="props">
                     <q-tr :props="props" style="font-weight: 500; cursor: default">
@@ -20,6 +20,11 @@
                         </q-td>
                         <q-td key="name" :props="props">
                             {{ props.row.name_travel_package }}
+                            <q-icon v-if="props.row.promotion" size="xs" name="star" color="warning">
+                                <q-tooltip anchor="top middle" content-style="font-size: 12px" self="center left" :offset="[10, 10]">
+                                    <strong>Pacote Promocional</strong>
+                                </q-tooltip>
+                            </q-icon>
                         </q-td>
                         <q-td key="description" :props="props" style="max-width: 200px">
                             {{ props.row.description }}
