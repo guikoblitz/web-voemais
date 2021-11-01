@@ -21,6 +21,7 @@ export default class CadastroPacotesModal extends Vue {
     travel_package = new TravelPackage();
     formValidator = new CadastroPacotesValidator(this.$refs);
     countries: Country[] = [];
+    tokenEmployee: string | undefined = undefined;
     updateKeyForm = 0;
     updateKeyInput = 0;
     isDataInicialSelecionada = false;
@@ -90,6 +91,9 @@ export default class CadastroPacotesModal extends Vue {
         Loading.show({ message: 'Carregando informações de Pacotes...' });
         this.travel_package_types = await TravelPackageTypesService.getTravelPackagesTypes();
         this.countries = await CountryService.getCountries();
+        if (this.validateLoggedUser() && this.validateEmployee()) {
+            this.tokenEmployee = this.$store.state.geral.tokenUsuarioLogado;
+        }
         this.$forceUpdate();
         Loading.hide();
     }
@@ -105,6 +109,20 @@ export default class CadastroPacotesModal extends Vue {
                 notificarAlerta('Selecione uma Imagem válida.');
             }
         }
+    }
+
+    validateLoggedUser() {
+        if (this.$store.state.geral.usuarioLogado) {
+            return true;
+        }
+        return false;
+    }
+
+    validateEmployee() {
+        if (this.validateLoggedUser() && this.$store.state.geral.usuarioLogado.employee) {
+            return true;
+        }
+        return false;
     }
 
     removerCampoFiltro(nomeCampo: string): void {
@@ -136,8 +154,10 @@ export default class CadastroPacotesModal extends Vue {
                 if (this.editPackage) {
                     Loading.show({ message: 'Atualizando Pacote de Viagem...' });
 
-                    const returnUpdateTravelPackage = await TravelPackageService.updateTravelPackage(this.travel_package);
-                    console.log(returnUpdateTravelPackage);
+                    const returnUpdateTravelPackage = await TravelPackageService.updateTravelPackage(
+                        this.travel_package,
+                        this.tokenEmployee
+                    );
 
                     if (returnUpdateTravelPackage) {
                         notificarSucesso('Pacote de Viagem atualizado com sucesso!');
@@ -146,8 +166,10 @@ export default class CadastroPacotesModal extends Vue {
                 } else {
                     Loading.show({ message: 'Inserindo Pacote de Viagem...' });
 
-                    const returnInsertTravelPackage = await TravelPackageService.createTravelPackage(this.travel_package);
-                    console.log(returnInsertTravelPackage);
+                    const returnInsertTravelPackage = await TravelPackageService.createTravelPackage(
+                        this.travel_package,
+                        this.tokenEmployee
+                    );
 
                     if (returnInsertTravelPackage) {
                         notificarSucesso('Pacote de Viagem inserido com sucesso!');

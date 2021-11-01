@@ -14,6 +14,7 @@ export default class CadastroPacotesGerenciador extends Vue {
     travelPackagesColumns: QTable['columns'];
     travelPackagesList: TravelPackage[] = [];
     selected_travel_package = new TravelPackage();
+    tokenEmployee: string | undefined = undefined;
     pagesNumber = 0;
     modal_title = '';
     abrirCadastroPacotes = false;
@@ -35,6 +36,7 @@ export default class CadastroPacotesGerenciador extends Vue {
 
     async mounted(): Promise<void> {
         if (this.validateLoggedUser() && this.validateEmployee()) {
+            this.tokenEmployee = this.$store.state.geral.tokenUsuarioLogado;
             this.$store.dispatch('geral/setSystemTitle', 'Gerenciador de Pacotes');
             await this.callPackageUpdates(true);
         } else {
@@ -118,7 +120,7 @@ export default class CadastroPacotesGerenciador extends Vue {
             Loading.show({ message: 'Excluindo Pacote de Viagem...' });
 
             const travelPackageId = travelPackage.id_travel_pack;
-            const returnDeleteTravelPackage = await TravelPackageService.deleteTravelPackage(travelPackage);
+            const returnDeleteTravelPackage = await TravelPackageService.deleteTravelPackage(travelPackage, this.tokenEmployee);
 
             if (returnDeleteTravelPackage) {
                 notificarSucesso('Pacote de Viagem excluído com sucesso!');

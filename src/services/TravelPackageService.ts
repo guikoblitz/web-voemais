@@ -1,12 +1,10 @@
 import { TravelPackage } from 'src/entities/TravelPackage';
-import state from 'src/store/geral/state';
 import { notificarAlerta } from 'src/util/NotifyUtil';
 import Api from './Api';
 
 export default {
-    async createTravelPackage(travelPackage: TravelPackage): Promise<TravelPackage | void> {
+    async createTravelPackage(travelPackage: TravelPackage, token: string | undefined): Promise<TravelPackage | void> {
         try {
-            const token = state.tokenUsuarioLogado;
             if (token) {
                 const response = await Api.post('/create-travel-package', travelPackage, {
                     headers: { Authorization: `Bearer ${token}` }
@@ -45,9 +43,8 @@ export default {
         }
     },
 
-    async updateTravelPackage(travelPackage: TravelPackage): Promise<TravelPackage | void> {
+    async updateTravelPackage(travelPackage: TravelPackage, token: string | undefined): Promise<TravelPackage | void> {
         try {
-            const token = state.tokenUsuarioLogado;
             if (token) {
                 const id = travelPackage.id_travel_pack;
                 const response = await Api.put(`/update-travel-packages/${id}`, travelPackage, {
@@ -63,9 +60,8 @@ export default {
         }
     },
 
-    async deleteTravelPackage(travelPackage: TravelPackage): Promise<TravelPackage | void> {
+    async deleteTravelPackage(travelPackage: TravelPackage, token: string | undefined): Promise<TravelPackage | void> {
         try {
-            const token = state.tokenUsuarioLogado;
             if (token) {
                 const response = await Api.delete(`/delete-travel-packages/${travelPackage.id_travel_pack}`, {
                     headers: { Authorization: `Bearer ${token}` }
